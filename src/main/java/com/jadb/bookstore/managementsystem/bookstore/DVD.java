@@ -10,7 +10,7 @@ public class DVD extends Product {
         @param String directorName The name of the DVD's director
         @param int year The year the DVD was published
     */
-    public DVD(String name, double price, int copies, String directorName, int year){
-        super(name, price, copies, directorName, year);
+    public DVD(Long id, String name, double price, int copies, String directorName, int year){
+        super(id, name, price, copies, directorName, year);
     }
 }

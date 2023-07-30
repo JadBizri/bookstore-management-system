@@ -10,7 +10,7 @@ public class Book extends Product {
         @param String authorName The name of the book's author
         @param int year The year the book was published
     */
-    public Book(String name, double price, int copies, String authorName, int year){
-        super(name, price, copies, authorName, year);
+    public Book(Long id, String name, double price, int copies, String authorName, int year){
+        super(id, name, price, copies, authorName, year);
     }
 }
