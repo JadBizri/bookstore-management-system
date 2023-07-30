@@ -13,4 +13,8 @@ public class Book extends Product {
     public Book(long id, String name, double price, int copies, String authorName, int year){
         super(id, name, price, copies, authorName, year);
     }
+
+    public Book(String name, double price, int copies, String authorName, int year){
+        super(name, price, copies, authorName, year);
+    }
 }

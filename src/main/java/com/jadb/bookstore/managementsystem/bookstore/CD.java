@@ -13,4 +13,8 @@ public class CD extends Product {
     public CD(long id, String name, double price, int copies, String producerName, int year){
         super(id, name, price, copies, producerName, year);
     }
+
+    public CD(String name, double price, int copies, String producerName, int year){
+        super(name, price, copies, producerName, year);
+    }
 }

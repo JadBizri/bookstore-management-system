@@ -21,6 +21,12 @@ public class PremiumMember extends Member {
         this.feePaid = feePaid;
     }
 
+    public PremiumMember(String fName, String lName, int booksBought, int CDsBought, int DVDsBought, String payment, boolean feePaid){
+        super(fName, lName, booksBought, CDsBought, DVDsBought);
+        this.payment = payment;
+        this.feePaid = feePaid;
+    }
+
     /*
         getPaymentMethod() Method that returns the payment method of the premium member
         @return String The payment method of the premium member

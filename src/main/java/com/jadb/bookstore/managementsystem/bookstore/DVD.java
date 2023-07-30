@@ -13,4 +13,8 @@ public class DVD extends Product {
     public DVD(long id, String name, double price, int copies, String directorName, int year){
         super(id, name, price, copies, directorName, year);
     }
+
+    public DVD(String name, double price, int copies, String directorName, int year){
+        super(name, price, copies, directorName, year);
+    }
 }

@@ -27,6 +27,14 @@ public abstract class Product implements Comparable<Product> {
         this.year = year;
     }
 
+    public Product(String name, double price, int copies, String creator, int year) {
+        this.name = name;
+        this.price = price;
+        this.copies = copies;
+        this.creator = creator;
+        this.year = year;
+    }
+
     /*
         getId() Method that returns the product's id
         @return Long id The product's id

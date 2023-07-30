@@ -25,10 +25,18 @@ public class Member{
         this.DVDsBought = DVDsBought;
     }
 
+    public Member(String fName, String lName, int booksBought, int CDsBought, int DVDsBought) {
+        this.fName = fName;
+        this.lName = lName;
+        this.booksBought = booksBought;
+        this.CDsBought = CDsBought;
+        this.DVDsBought = DVDsBought;
+    }
+
     /*
-        getId() Method that returns a member's id
-        @return long The member's id
-    */
+            getId() Method that returns a member's id
+            @return long The member's id
+        */
     public long getId() {
         return id;
     }
