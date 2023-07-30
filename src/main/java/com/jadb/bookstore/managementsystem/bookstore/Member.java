@@ -1,14 +1,12 @@
 package com.jadb.bookstore.managementsystem.bookstore;
 
 public class Member{
+    private long id; //to hold member id
     private String fName; //to hold member's first name
     private String lName; //to hold member's last name
     private int booksBought; //to hold the number of books bought by a customer
     private int CDsBought; //to hold the number of CDs bought by a customer
     private int DVDsBought; //to hold the number of DVDs bought by a customer
-    private final double bookPrice = 19.99; //to hold the fixed price of each book
-    private final double cdPrice = 11.99; //to hold the fixed price of each CD
-    private final double dvdPrice = 14.99; //to hold the fixed price of each DVD
 
     /*
         Constructor that accepts arguments for the member's fName, membership status, and number of booksBought, CDsBought, and DVDsBought bought by that member
@@ -18,12 +16,29 @@ public class Member{
         @param int CDsBought The number of CDs bought by the member
         @param int DVDsBought The number of DVDs bought by the member
     */
-    public Member(String fName, String lName, int booksBought, int CDsBought, int DVDsBought){
+    public Member(long id, String fName, String lName, int booksBought, int CDsBought, int DVDsBought){
+        this.id = id;
         this.fName = fName;
         this.lName = lName;
         this.booksBought = booksBought;
         this.CDsBought = CDsBought;
         this.DVDsBought = DVDsBought;
+    }
+
+    /*
+        getId() Method that returns a member's id
+        @return long The member's id
+    */
+    public long getId() {
+        return id;
+    }
+
+    /*
+        setId() Method that sets a member's id
+        @param long The id of the member to be set in the account
+    */
+    public void setId(long id) {
+        this.id = id;
     }
 
     /*
@@ -106,11 +121,4 @@ public class Member{
         this.DVDsBought = DVDsBought;
     }
 
-    /*
-        getMoneySpent() Method that returns the amount of money spent by the member
-        @return double The amount of money the member has spent at the bookstore
-    */
-    public double getMoneySpent(){
-        return booksBought * bookPrice + CDsBought * cdPrice + DVDsBought * dvdPrice;
-    }
 }

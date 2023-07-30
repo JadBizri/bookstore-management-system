@@ -7,7 +7,7 @@ public abstract class Product implements Comparable<Product> {
     private String name; //to hold product's name
     private String creator; //to hold product's creator's name
     private int year; //to hold the year the product was published
-    private Long id; //to hold the product's id
+    private long id; //to hold the product's id
 
     /*
         Constructor that accepts arguments for the product's name, available copies, creator's name, price, and year published
@@ -18,7 +18,7 @@ public abstract class Product implements Comparable<Product> {
         @param String creator The name of the product's creator
         @param int The year the product was published
     */
-    public Product(Long id, String name, double price, int copies, String creator, int year) {
+    public Product(long id, String name, double price, int copies, String creator, int year) {
         this.id = id;
         this.name = name;
         this.price = price;

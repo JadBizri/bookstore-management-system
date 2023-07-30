@@ -10,7 +10,7 @@ public class CD extends Product {
         @param String authorName The name of the CD's author
         @param int year The year the CD was published
     */
-    public CD(Long id, String name, double price, int copies, String producerName, int year){
+    public CD(long id, String name, double price, int copies, String producerName, int year){
         super(id, name, price, copies, producerName, year);
     }
 }

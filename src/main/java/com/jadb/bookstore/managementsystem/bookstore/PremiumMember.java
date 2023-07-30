@@ -4,7 +4,6 @@ public class PremiumMember extends Member {
 
     private boolean feePaid; //to hold whether the monthly premium membership fee is paid or not
     private String payment; //to hold the premium member's payment method
-    private final double membershipPrice = 4.99; //to hold the fixed monthly price of the premium membership
 
     /*
         Constructor that accepts arguments for the PremiumMember's name, PremiumMembership status, whether the membership fee is paid or not and number of books, CDs, and DVDs bought by that PremiumMember
@@ -16,8 +15,8 @@ public class PremiumMember extends Member {
         @param String payment The preferred payment method of the premium member
         @param boolean feePaid Whether the monthly membership fee has been paid or not
     */
-    public PremiumMember(String fName, String lName, int booksBought, int CDsBought, int DVDsBought, String payment, boolean feePaid){
-        super(fName, lName, booksBought, CDsBought, DVDsBought);
+    public PremiumMember(long id, String fName, String lName, int booksBought, int CDsBought, int DVDsBought, String payment, boolean feePaid){
+        super(id, fName, lName, booksBought, CDsBought, DVDsBought);
         this.payment = payment;
         this.feePaid = feePaid;
     }
