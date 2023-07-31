@@ -1,5 +1,10 @@
 package com.jadb.bookstore.managementsystem.bookstore;
 
+import jakarta.persistence.*;
+
+@Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "product_type", discriminatorType = DiscriminatorType.STRING)
 public abstract class Product implements Comparable<Product> {
 
     private int copies; //to hold number of copies of product available
@@ -7,6 +12,8 @@ public abstract class Product implements Comparable<Product> {
     private String name; //to hold product's name
     private String creator; //to hold product's creator's name
     private int year; //to hold the year the product was published
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id; //to hold the product's id
 
     /*
@@ -33,6 +40,10 @@ public abstract class Product implements Comparable<Product> {
         this.copies = copies;
         this.creator = creator;
         this.year = year;
+    }
+
+    public Product() {
+
     }
 
     /*

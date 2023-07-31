@@ -1,5 +1,8 @@
 package com.jadb.bookstore.managementsystem.bookstore;
 
+import jakarta.persistence.Entity;
+
+@Entity
 public class DVD extends Product {
 
     /*
@@ -16,5 +19,9 @@ public class DVD extends Product {
 
     public DVD(String name, double price, int copies, String directorName, int year){
         super(name, price, copies, directorName, year);
+    }
+
+    public DVD() {
+
     }
 }

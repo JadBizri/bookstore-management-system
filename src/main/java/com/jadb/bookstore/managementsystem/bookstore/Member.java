@@ -1,6 +1,13 @@
 package com.jadb.bookstore.managementsystem.bookstore;
 
+import jakarta.persistence.*;
+
+@Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "member_type", discriminatorType = DiscriminatorType.STRING)
 public class Member{
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id; //to hold member id
     private String fName; //to hold member's first name
     private String lName; //to hold member's last name
@@ -31,6 +38,10 @@ public class Member{
         this.booksBought = booksBought;
         this.CDsBought = CDsBought;
         this.DVDsBought = DVDsBought;
+    }
+
+    public Member() {
+
     }
 
     /*

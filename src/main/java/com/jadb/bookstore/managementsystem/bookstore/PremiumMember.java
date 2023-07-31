@@ -1,5 +1,8 @@
 package com.jadb.bookstore.managementsystem.bookstore;
 
+import jakarta.persistence.Entity;
+
+@Entity
 public class PremiumMember extends Member {
 
     private boolean feePaid; //to hold whether the monthly premium membership fee is paid or not
@@ -25,6 +28,10 @@ public class PremiumMember extends Member {
         super(fName, lName, booksBought, CDsBought, DVDsBought);
         this.payment = payment;
         this.feePaid = feePaid;
+    }
+
+    public PremiumMember() {
+
     }
 
     /*
