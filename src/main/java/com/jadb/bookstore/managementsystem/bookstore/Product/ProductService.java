@@ -1,4 +1,4 @@
-package com.jadb.bookstore.managementsystem.bookstore;
+package com.jadb.bookstore.managementsystem.bookstore.Product;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
