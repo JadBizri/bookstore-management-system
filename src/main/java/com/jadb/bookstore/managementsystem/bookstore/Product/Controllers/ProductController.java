@@ -1,5 +1,8 @@
-package com.jadb.bookstore.managementsystem.bookstore.Product;
+package com.jadb.bookstore.managementsystem.bookstore.Product.Controllers;
 
+import com.jadb.bookstore.managementsystem.bookstore.Product.Book;
+import com.jadb.bookstore.managementsystem.bookstore.Product.Product;
+import com.jadb.bookstore.managementsystem.bookstore.Product.Services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

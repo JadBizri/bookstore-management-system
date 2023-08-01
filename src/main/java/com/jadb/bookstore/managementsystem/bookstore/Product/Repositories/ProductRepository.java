@@ -1,5 +1,6 @@
-package com.jadb.bookstore.managementsystem.bookstore.Product;
+package com.jadb.bookstore.managementsystem.bookstore.Product.Repositories;
 
+import com.jadb.bookstore.managementsystem.bookstore.Product.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

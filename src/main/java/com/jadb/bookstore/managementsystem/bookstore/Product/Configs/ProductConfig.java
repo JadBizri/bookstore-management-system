@@ -1,5 +1,10 @@
-package com.jadb.bookstore.managementsystem.bookstore.Product;
+package com.jadb.bookstore.managementsystem.bookstore.Product.Configs;
 
+import com.jadb.bookstore.managementsystem.bookstore.Product.Book;
+import com.jadb.bookstore.managementsystem.bookstore.Product.CD;
+import com.jadb.bookstore.managementsystem.bookstore.Product.DVD;
+import com.jadb.bookstore.managementsystem.bookstore.Product.Product;
+import com.jadb.bookstore.managementsystem.bookstore.Product.Repositories.ProductRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
