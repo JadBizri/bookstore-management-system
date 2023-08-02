@@ -1,64 +1,61 @@
 package com.jadb.bookstore.managementsystem.bookstore.Product.Repositories;
 
+import com.jadb.bookstore.managementsystem.bookstore.Product.Book;
+import com.jadb.bookstore.managementsystem.bookstore.Product.Product;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class ProductRepositoryTest {
 
     @Mock
-    private ProductRepository productRepositoryMock;
-
-    @InjectMocks
-    private ProductService productService;
+    private ProductRepository productRepository;
 
     @Test
     public void testFindProductByName() {
         // Test data
         String productName = "Test Product";
-        Product product = new Product();
-        product.setId(1L);
-        product.setName(productName);
+        Book book = new Book();
+        book.setName(productName);
 
         // Mocking the repository's behavior
-        when(productRepositoryMock.findProductByName(productName)).thenReturn(Optional.of(product));
+        when(productRepository.findProductByName(productName)).thenReturn(Optional.of(book));
 
         // Call the service method
-        Optional<Product> result = productService.findProductByName(productName);
+        Optional<Product> result = productRepository.findProductByName(productName);
 
         // Assertions
-        assertTrue(result.isPresent()); // Check that the result is present
-        assertEquals(product, result.get()); // Check that the returned product is the expected one
+        assertEquals(book, result.orElse(null)); // Check that the returned product is the expected one
     }
 
     @Test
     public void testGetProductsByType() {
         // Test data
         Class<?> productType = Book.class;
-        Product book1 = new Book();
-        Product book2 = new Book();
-        List<Product> mockProducts = Arrays.asList(book1, book2);
+        Book book1 = new Book();
+        Book book2 = new Book();
+        List<Product> mockProducts = new ArrayList<>();
+        mockProducts.add(book1);
+        mockProducts.add(book2);
 
         // Mocking the repository's behavior
-        when(productRepositoryMock.getProductsBy(productType)).thenReturn(mockProducts);
+        when(productRepository.getProductsByType(productType)).thenReturn(mockProducts);
 
         // Call the service method
-        List<Product> result = productService.getProductsByType(productType);
+        List<Product> result = productRepository.getProductsByType(productType);
 
         // Assertions
-        assertNotNull(result); // Check that the result is not null
         assertEquals(2, result.size()); // Check that the result contains the expected number of products
-        assertTrue(result.contains(book1)); // Check that the result contains the mocked products
-        assertTrue(result.contains(book2));
+        assertEquals(book1, result.get(0)); // Check that the result contains the mocked products
+        assertEquals(book2, result.get(1));
     }
 }
