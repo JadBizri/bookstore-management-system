@@ -24,7 +24,8 @@ public class ProductConfig {
                     20,
                     3,
                     "J.K. Rowling",
-                    1997
+                    1997,
+                    "978-0590353403"
             );
 
             Product cd = new CD(

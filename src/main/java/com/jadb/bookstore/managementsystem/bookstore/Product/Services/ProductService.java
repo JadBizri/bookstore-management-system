@@ -23,9 +23,9 @@ public class ProductService {
     }
 
     public void addNewBook(Book b) {
-        Optional<Product> productOptional = productRepository
-                .findProductByName(b.getName());
-        if(productOptional.isPresent())
+        Optional<Book> bookOptional = productRepository
+                .findBookByIsbn(b.getIsbn());
+        if(bookOptional.isPresent())
             throw new IllegalStateException("Book exists!");
         productRepository.save(b);
     }
