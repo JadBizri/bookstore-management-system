@@ -3,9 +3,7 @@ package com.jadb.bookstore.managementsystem.bookstore.Member.Controller;
 import com.jadb.bookstore.managementsystem.bookstore.Member.Member;
 import com.jadb.bookstore.managementsystem.bookstore.Member.Service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,4 +19,7 @@ public class MemberController {
     @GetMapping
     public List<Member> getMembers(){return memberService.getMembers();
     }
+
+    @PostMapping
+    public void addNewMember(@RequestBody Member m){memberService.addNewMember(m);}
 }
