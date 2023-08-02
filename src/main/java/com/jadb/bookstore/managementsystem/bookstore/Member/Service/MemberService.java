@@ -2,8 +2,6 @@ package com.jadb.bookstore.managementsystem.bookstore.Member.Service;
 
 import com.jadb.bookstore.managementsystem.bookstore.Member.Member;
 import com.jadb.bookstore.managementsystem.bookstore.Member.Repository.MemberRepository;
-import com.jadb.bookstore.managementsystem.bookstore.Product.Product;
-import com.jadb.bookstore.managementsystem.bookstore.Product.Repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
