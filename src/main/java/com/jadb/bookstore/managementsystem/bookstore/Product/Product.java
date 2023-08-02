@@ -157,4 +157,9 @@ public abstract class Product implements Comparable<Product> {
             return 0;
         }
     }
+
+    @Override
+    public String toString() {
+        return getName() + " by " + getCreator();
+    }
 }
