@@ -140,4 +140,8 @@ public class Member{
         this.DVDsBought = DVDsBought;
     }
 
+    @Override
+    public String toString() {
+        return "ID " + id + ": " + lName + ", " + fName;
+    }
 }
