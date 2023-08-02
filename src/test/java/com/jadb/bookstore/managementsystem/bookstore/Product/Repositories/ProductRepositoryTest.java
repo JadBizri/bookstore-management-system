@@ -58,4 +58,21 @@ public class ProductRepositoryTest {
         assertEquals(book1, result.get(0)); // Check that the result contains the mocked products
         assertEquals(book2, result.get(1));
     }
+
+    @Test
+    public void testFindBookByIsbn() {
+        // Test data
+        String bookIsbn = "3587126378126";
+        Book book = new Book();
+        book.setIsbn(bookIsbn);
+
+        // Mocking the repository's behavior
+        when(productRepository.findBookByIsbn(bookIsbn)).thenReturn(Optional.of(book));
+
+        // Call the service method
+        Optional<Book> result = productRepository.findBookByIsbn(bookIsbn);
+
+        // Assertions
+        assertEquals(book, result.orElse(null)); // Check that the returned product is the expected one
+    }
 }
