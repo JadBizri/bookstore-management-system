@@ -1,5 +1,6 @@
 package com.jadb.bookstore.managementsystem.bookstore.Product;
 
+import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 
 @Entity
