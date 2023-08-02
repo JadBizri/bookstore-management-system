@@ -17,5 +17,5 @@ public interface ProductRepository
     Optional<Product> findProductByName(String name);
 
     @Query("SELECT p FROM Product p WHERE TYPE(p) = :type")
-    List<Product> getProductsBy(@Param("type") Class<?> type);
+    List<Product> getProductsByType(@Param("type") Class<?> type);
 }
