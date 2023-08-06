@@ -1,10 +1,18 @@
 package com.jadb.bookstore.managementsystem.bookstore.Product;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import jakarta.persistence.*;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "product_type", discriminatorType = DiscriminatorType.STRING)
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type")
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = Book.class, name = "Book"),
+        @JsonSubTypes.Type(value = CD.class, name = "CD"),
+        @JsonSubTypes.Type(value = DVD.class, name = "DVD")
+})
 public abstract class Product implements Comparable<Product> {
 
     private int copies; //to hold number of copies of product available
