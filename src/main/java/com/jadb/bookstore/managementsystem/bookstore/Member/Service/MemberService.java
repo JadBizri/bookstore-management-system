@@ -24,7 +24,7 @@ public class MemberService {
 
     public void addNewMember(Member m) {
         Optional<Member> memberOptional = memberRepository
-                .getMemberByFName(m.getFirstName());
+                .getMemberByEmail(m.getEmail());
         if(memberOptional.isPresent())
             throw new IllegalStateException("Member exists!");
         memberRepository.save(m);
