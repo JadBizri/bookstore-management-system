@@ -14,6 +14,7 @@ public class Member{
     private int booksBought; //to hold the number of books bought by a customer
     private int CDsBought; //to hold the number of CDs bought by a customer
     private int DVDsBought; //to hold the number of DVDs bought by a customer
+    private String email; //to hold member email
 
     /*
         Constructor that accepts arguments for the member's fName, membership status, and number of booksBought, CDsBought, and DVDsBought bought by that member
@@ -23,21 +24,23 @@ public class Member{
         @param int CDsBought The number of CDs bought by the member
         @param int DVDsBought The number of DVDs bought by the member
     */
-    public Member(long id, String fName, String lName, int booksBought, int CDsBought, int DVDsBought){
+    public Member(long id, String fName, String lName, int booksBought, int CDsBought, int DVDsBought, String email){
         this.id = id;
         this.fName = fName;
         this.lName = lName;
         this.booksBought = booksBought;
         this.CDsBought = CDsBought;
         this.DVDsBought = DVDsBought;
+        this.email = email;
     }
 
-    public Member(String fName, String lName, int booksBought, int CDsBought, int DVDsBought) {
+    public Member(String fName, String lName, int booksBought, int CDsBought, int DVDsBought, String email) {
         this.fName = fName;
         this.lName = lName;
         this.booksBought = booksBought;
         this.CDsBought = CDsBought;
         this.DVDsBought = DVDsBought;
+        this.email = email;
     }
 
     public Member() {

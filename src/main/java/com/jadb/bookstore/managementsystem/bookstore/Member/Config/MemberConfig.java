@@ -21,7 +21,8 @@ public class MemberConfig {
                     "Miles",
                     3,
                     2,
-                    1
+                    1,
+                    "t.miles@gmail.com"
             );
 
             PremiumMember jorge = new PremiumMember(
@@ -31,7 +32,8 @@ public class MemberConfig {
                     6,
                     5,
                     "Visa",
-                    true
+                    true,
+                    "jorge.j@gmail.com"
             );
 
             repository.saveAll(

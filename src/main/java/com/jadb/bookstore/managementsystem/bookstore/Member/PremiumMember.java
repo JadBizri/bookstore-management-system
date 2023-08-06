@@ -18,14 +18,14 @@ public class PremiumMember extends Member {
         @param String payment The preferred payment method of the premium member
         @param boolean feePaid Whether the monthly membership fee has been paid or not
     */
-    public PremiumMember(long id, String fName, String lName, int booksBought, int CDsBought, int DVDsBought, String payment, boolean feePaid){
-        super(id, fName, lName, booksBought, CDsBought, DVDsBought);
+    public PremiumMember(long id, String fName, String lName, int booksBought, int CDsBought, int DVDsBought, String payment, boolean feePaid, String email){
+        super(id, fName, lName, booksBought, CDsBought, DVDsBought, email);
         this.payment = payment;
         this.feePaid = feePaid;
     }
 
-    public PremiumMember(String fName, String lName, int booksBought, int CDsBought, int DVDsBought, String payment, boolean feePaid){
-        super(fName, lName, booksBought, CDsBought, DVDsBought);
+    public PremiumMember(String fName, String lName, int booksBought, int CDsBought, int DVDsBought, String payment, boolean feePaid, String email){
+        super(fName, lName, booksBought, CDsBought, DVDsBought, email);
         this.payment = payment;
         this.feePaid = feePaid;
     }
