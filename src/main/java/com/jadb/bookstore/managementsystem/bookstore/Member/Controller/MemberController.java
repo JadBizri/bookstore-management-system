@@ -45,4 +45,17 @@ public class MemberController {
     public void addNewMember(@RequestBody Member m) {
         memberService.addNewMember(m);
     }
+
+    // PUT - Update a Member account
+    @PutMapping("/{id}")
+    public ResponseEntity<Member> updateMember(@PathVariable long id, @RequestBody Member updatedMember) {
+        Member updatedMemberResult = memberService.updateProduct(id, updatedMember);
+
+        if (updatedMemberResult != null) {
+            return ResponseEntity.ok(updatedMemberResult);
+        } else {
+            // If product with the given ID does not exist, return a 404 Not Found status.
+            return ResponseEntity.notFound().build();
+        }
+    }
 }
