@@ -45,19 +45,19 @@ public class ProductController {
     }
 
     //POST create new Book
-    @PostMapping("/api/v1/products/books")
+    @PostMapping("/book")
     public void addNewBook(@RequestBody Book b) {
         productService.addNewBook(b);
     }
 
     //POST create new CD
-    @PostMapping("/api/v1/products/cds")
+    @PostMapping("/cd")
     public void addNewCD(@RequestBody CD cd) {
         productService.addNewCD(cd);
     }
 
     //POST create new DVD
-    @PostMapping("/api/v1/products/dvds")
+    @PostMapping("/dvd")
     public void addNewDVD(@RequestBody DVD dvd) {
         productService.addNewDVD(dvd);
     }
