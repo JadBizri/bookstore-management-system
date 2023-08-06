@@ -1,8 +1,10 @@
 package com.jadb.bookstore.managementsystem.bookstore.Member;
 
+import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 
 @Entity
+@DiscriminatorValue("Premium")
 public class PremiumMember extends Member {
 
     private boolean feePaid; //to hold whether the monthly premium membership fee is paid or not
