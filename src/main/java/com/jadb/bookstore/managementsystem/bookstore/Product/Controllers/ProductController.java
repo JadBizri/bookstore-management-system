@@ -32,6 +32,23 @@ public class ProductController {
         return productService.getProducts();
     }
 
+    //GET List of a specific type of product
+    @GetMapping("/api/v1/products/type")
+    public ResponseEntity<List<Product>> getProductsByType(@RequestParam("type") String type) {
+        Class<?> productType;
+        switch (type) {
+            case "Book" -> productType = Book.class;
+            case "CD" -> productType = CD.class;
+            case "DVD" -> productType = DVD.class;
+            default -> {
+                // Return an error response if an invalid type is provided
+                return ResponseEntity.badRequest().build();
+            }
+        }
+        List<Product> products = productRepository.getProductsByType(productType);
+        return ResponseEntity.ok(products);
+    }
+
     //GET Product by ID
     @GetMapping("/{id}")
     public ResponseEntity<Product> getProductById(@PathVariable long id) {
