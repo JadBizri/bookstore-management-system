@@ -30,17 +30,46 @@ body{
     text-align: center;
     color: white;
     font-size: 42px;
+    margin-top: 1em;
 }
 
 .container{
-    padding: 10% 20%;
+    padding: 2% 20%;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-#productList{
+#productList,
+.sort-container{
     background-color: white;
-    padding: 10%;
-    box-shadow: rgba(255, 255, 0, 0.6) 0px 0px 20px;
+    width: 80%;
+    padding: 2% 5% 5%;
+}
+
+.contact li a{
+    text-decoration: none;
+    color: white;
+}
+
+.sort-container{
+    display: flex;
+    justify-content: space-between;
+    padding: 2% 5%;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    border: 1px solid black; /* Add a solid black border to each cell */
+    padding: 8px; /* Add padding for cell content */
+    text-align: left;
+}
+
+.selected {
+    background-color: #3882F6;
+    color: white;
 }

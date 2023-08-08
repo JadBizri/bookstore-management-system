@@ -8,27 +8,64 @@
     <link href="./styles.css" rel="stylesheet">
 </head>
 <body>
-    <div class="header">
-        <ul class="techs">
-            <li><i class="fa-brands fa-html5" style="color: orange"></i> HTML</li>
-            <li><i class="fa-brands fa-css3-alt" style="color: dodgerblue"></i> CSS</li>
-            <li><i class="fa-brands fa-js" style="color: yellow;"></i> JavaScript</li>
-            <li><i class="fa-brands fa-java" style="color: #f29c07;"></i> Java</li>
-            <li>SpringBoot</li>
-            <li>PostgreSQL</li>
-        </ul>
-        <ul class="contact">
-            <li>GitHub</li>
-            <li>LinkedIn</li>
-        </ul>
-    </div>
+<div class="header">
+    <ul class="techs">
+        <li><i class="fa-brands fa-html5" style="color: orange"> </i> HTML</li>
+        <li><i class="fa-brands fa-css3-alt" style="color: dodgerblue"></i> CSS</li>
+        <li><i class="fa-brands fa-js" style="color: yellow;"></i> JavaScript</li>
+        <li><i class="fa-brands fa-java" style="color: #f29c07;"></i> Java</li>
+        <li>SpringBoot</li>
+        <li>PostgreSQL</li>
+    </ul>
+    <ul class="contact">
+        <li><i class="fa-brands fa-github" style="color: #ffffff;"></i> <a href="https://github.com/JadBizri"
+                                                                           target="_blank">GitHub</a></li>
+        <li><i class="fa-brands fa-linkedin" style="color: #0c50c6;"></i> <a href="https://linkedin.com/in/jadbizri"
+                                                                             target="_blank">LinkedIn</a></li>
+    </ul>
+</div>
 
-    <h1 class="title">The Bookstore</h1>
+<h1 class="title">The Bookstore</h1>
 
-    <div class="container">
-        <div id="productList"></div>
+<div class="container">
+
+    <div class="sort-container">
+        <div>
+            <label for="products">Show: </label>
+            <select name="products" id="products">
+                <option value="All">All</option>
+                <option value="Books">Books</option>
+                <option value="CDs">CDs</option>
+                <option value="DVDs">DVDs</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="sort">Sort By: </label>
+            <select name="sort" id="sort">
+                <option value="Default">Default</option>
+                <option value="PriceLow">Price (Lowest to Highest)</option>
+                <option value="PriceHigh">Price (Highest to Lowest)</option>
+                <option value="Type">Type</option>
+            </select>
+        </div>
+
     </div>
-    
+    <div id="productList">
+        <table>
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Author/Artist</th>
+                <th>Type</th>
+            </tr>
+            </thead>
+            <tbody id="productTableBody"></tbody>
+        </table>
+    </div>
+</div>
+
 </body>
 <script src="./script.js"></script>
 </html>
