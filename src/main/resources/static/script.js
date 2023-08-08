@@ -1,38 +1,115 @@
-fetch('/api/v1/products')
-    .then(response => response.json())
-    .then(data => {
-        const productTableBody = document.getElementById('productTableBody');
-        const rows = []; // Define the 'rows' array to store row elements
+const productTableBody = document.getElementById('productTableBody');
+function insertProductRow(product, rows) {
+    const row = productTableBody.insertRow();
+    const nameCell = row.insertCell(0);
+    const priceCell = row.insertCell(1);
+    const creatorCell = row.insertCell(2);
+    const typeCell = row.insertCell(3);
+    const copiesCell = row.insertCell(4);
 
-        data.forEach(product => {
-            const row = productTableBody.insertRow();
-            const nameCell = row.insertCell(0);
-            const priceCell = row.insertCell(1);
-            const creatorCell = row.insertCell(2);
-            const typeCell = row.insertCell(3);
+    nameCell.textContent = product.name;
+    priceCell.textContent = `$${product.price.toFixed(2)}`;
+    creatorCell.textContent = product.creator;
+    copiesCell.textContent = product.numCopies;
+    typeCell.textContent = product.type;
 
-            nameCell.textContent = product.name;
-            priceCell.textContent = `$${product.price.toFixed(2)}`;
-            creatorCell.textContent = product.creator;
-            typeCell.textContent = product.type;
+    // Add the row to the 'rows' array
+    rows.push(row);
 
-            // Add the row to the 'rows' array
-            rows.push(row);
+    row.addEventListener('click', () => {
+        // Remove highlight from previously selected rows
+        rows.forEach(r => r.classList.remove('selected'));
 
-            row.addEventListener('click', () => {
-                // Remove highlight from previously selected rows
-                rows.forEach(r => r.classList.remove('selected'));
+        // Add highlight to the clicked row
+        row.classList.add('selected');
+    });
+}
 
-                // Add highlight to the clicked row
-                row.classList.add('selected');
-
-                // Retrieve data from the selected row
-                const name = row.cells[0].textContent;
-                const price = row.cells[1].textContent;
-                const creator = row.cells[2].textContent;
-
-                console.log(`Selected: ${name} | ${price} | ${creator}`);
-            });
+function fetchData(url, successCallback, errorCallback) {
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            successCallback(data); // Call the success callback with the fetched data
+        })
+        .catch(error => {
+            errorCallback(error); // Call the error callback with the error object
         });
-    })
-    .catch(error => console.error('Error fetching data:', error));
+}
+
+const productsSelect = document.getElementById('products');
+const sortSelect = document.getElementById('sort');
+
+productsSelect.addEventListener('change', updateTable);
+sortSelect.addEventListener('change', updateTable);
+
+function updateTable() {
+
+    // Clear the existing table rows
+    productTableBody.innerHTML = '';
+
+    // Get selected options
+    const selectedProduct = productsSelect.value;
+    const selectedSort = sortSelect.value;
+    switch (selectedProduct) {
+        case 'All':
+            fetchData('/api/v1/products',
+                data => {
+                    const rows = []; // Define the 'rows' array to store row elements
+                    data.forEach(product => {
+                        insertProductRow(product, rows);
+                    });
+                },
+                error => {
+                    // Handle error
+                    console.error('Error fetching data:', error);
+                }
+            );
+            break;
+        case 'Books':
+            fetchData('/api/v1/products/api/v1/products/type?type=Book',
+                data => {
+                    const rows = []; // Define the 'rows' array to store row elements
+                    data.forEach(product => {
+                        insertProductRow(product, rows);
+                    });
+                },
+                error => {
+                    // Handle error
+                    console.error('Error fetching data:', error);
+                }
+            );
+            break;
+        case 'CDs':
+            fetchData('/api/v1/products/api/v1/products/type?type=CD',
+                data => {
+                    const rows = []; // Define the 'rows' array to store row elements
+                    data.forEach(product => {
+                        insertProductRow(product, rows);
+                    });
+                },
+                error => {
+                    // Handle error
+                    console.error('Error fetching data:', error);
+                }
+            );
+            break;
+        case 'DVDs':
+            fetchData('/api/v1/products/api/v1/products/type?type=DVD',
+                data => {
+                    const rows = []; // Define the 'rows' array to store row elements
+                    data.forEach(product => {
+                        insertProductRow(product, rows);
+                    });
+                },
+                error => {
+                    // Handle error
+                    console.error('Error fetching data:', error);
+                }
+            );
+            break;
+        default:
+            console.error('Something unexpected happened.');
+    }
+}
+
+updateTable();
