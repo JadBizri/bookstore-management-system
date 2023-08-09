@@ -22,4 +22,10 @@ public interface ProductRepository
 
     @Query("SELECT p FROM Product p WHERE TYPE(p) = :type")
     List<Product> getProductsByType(@Param("type") Class<?> type);
+
+    @Query("SELECT p FROM Product p ORDER BY p.price ASC")
+    List<Product> getProductsByPriceLowToHigh();
+
+    @Query("SELECT p FROM Product p ORDER BY p.price DESC")
+    List<Product> getProductsByPriceHighToLow();
 }
