@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Comparator;
 import java.util.Optional;
 
 @RestController
@@ -32,34 +33,39 @@ public class ProductController {
         return productService.getProducts();
     }
 
-    //GET List of a specific type of product
-    @GetMapping("/api/v1/products/type")
-    public ResponseEntity<List<Product>> getProductsByType(@RequestParam("type") String type) {
-        Class<?> productType;
-        switch (type) {
-            case "Book" -> productType = Book.class;
-            case "CD" -> productType = CD.class;
-            case "DVD" -> productType = DVD.class;
-            default -> {
-                // Return an error response if an invalid type is provided
-                return ResponseEntity.badRequest().build();
+    //GET List of products, optionally by type or sorted
+    @GetMapping(value = { "/type", "/sort" })
+    public ResponseEntity<List<Product>> getProductsByTypeAndSort(
+            @RequestParam(name = "type", required = false) String type,
+            @RequestParam(name = "sort", required = false) String sort) {
+
+        List<Product> products;
+
+        if (type != null) {
+            // Handle filtering by type
+            Class<?> productType;
+            switch (type) {
+                case "Book" -> productType = Book.class;
+                case "CD" -> productType = CD.class;
+                case "DVD" -> productType = DVD.class;
+                default -> {
+                    return ResponseEntity.badRequest().build(); // Invalid type
+                }
             }
+            products = productRepository.getProductsByType(productType);
+        } else {
+            // Return all products if type parameter is not provided
+            products = productRepository.findAll();
         }
-        List<Product> products = productRepository.getProductsByType(productType);
-        return ResponseEntity.ok(products);
-    }
 
-    //GET List of products sorted by price low to high
-    @GetMapping("/api/v1/products/price-low-to-high")
-    public ResponseEntity<List<Product>> getProductsByPriceLowToHigh() {
-        List<Product> products = productRepository.getProductsByPriceLowToHigh();
-        return ResponseEntity.ok(products);
-    }
-
-    //GET List of products sorted by price high to low
-    @GetMapping("/api/v1/products/price-high-to-low")
-    public ResponseEntity<List<Product>> getProductsByPriceHighToLow() {
-        List<Product> products = productRepository.getProductsByPriceHighToLow();
+        if (sort != null) {
+            // Handle sorting
+            if (sort.equals("PriceLow")) {
+                products.sort(Comparator.comparing(Product::getPrice));
+            } else if (sort.equals("PriceHigh")) {
+                products.sort(Comparator.comparing(Product::getPrice).reversed());
+            } // Add more sorting options as needed
+        }
         return ResponseEntity.ok(products);
     }
 
