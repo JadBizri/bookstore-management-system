@@ -47,7 +47,7 @@ function insertProductRow(product, rows) {
     row.addEventListener('click', () => {
 
         //if row is already selected, then unselect and return
-        if(row.classList.contains('selected')){
+        if (row.classList.contains('selected')) {
             row.classList.remove('selected');
             return;
         }
@@ -102,18 +102,65 @@ const showFormButton = document.getElementById('showFormButton');
 const closeFormButton = document.getElementById('closeFormButton');
 const overlay = document.getElementById('overlay');
 
-showFormButton.addEventListener('click', function() {
+showFormButton.addEventListener('click', function () {
     // Show the overlay and modal on button click
     overlay.style.display = 'flex';
 });
 
-closeFormButton.addEventListener('click', function() {
+closeFormButton.addEventListener('click', function () {
     // Close the overlay and modal on button click
     overlay.style.display = 'none';
 });
 
 //on load, update table
-window.onload = function() {
+window.onload = function () {
     updateTable();
 };
 
+// Select the form element and listen for the submit event
+const productForm = document.getElementById('addProductForm');
+productForm.addEventListener('submit', (event) => {
+    event.preventDefault(); // Prevent the default form submission
+
+    // Collect form data
+    const formData = new FormData(productForm);
+
+    // Convert form data to JSON
+    const productData = {};
+    formData.forEach((value, key) => {
+        productData[key] = value;
+    });
+
+    if (productData.type === 'Book') {
+        let isbn = prompt("What is the book's ISBN?");
+        if (isbn == null || isbn === "") {
+            isbn = "Unknown";
+        }
+        productData['isbn'] = isbn;
+        sendNewProduct('/api/v1/products/book', productData);
+    } else if (productData.type === 'CD') {
+        sendNewProduct('/api/v1/products/cd', productData);
+    } else if (productData.type === 'DVD') {
+        sendNewProduct('/api/v1/products/dvd', productData);
+    }
+    overlay.style.display = 'none';
+    updateTable();
+});
+
+function sendNewProduct(url, productData) {
+    // Send a POST request to the server
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(productData),
+    })
+        .then(response => response.json())
+        .then(data => {
+            // Handle success or display a success message
+        })
+        .catch(error => {
+            // Handle error or display an error message
+        });
+}
