@@ -26,15 +26,18 @@ body{
     gap: 32px;
 }
 
+.techs,
+.title{
+    cursor: default;
+}
+
 .title{
     text-align: center;
     color: white;
     font-size: 42px;
-    margin-top: 1em;
 }
 
 .container{
-    padding: 2% 20%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -42,9 +45,7 @@ body{
 
 #productList,
 .sort-container{
-    background-color: white;
-    width: 80%;
-    padding: 2% 5% 5%;
+    width: 100%;
 }
 
 .contact li a{
@@ -55,7 +56,7 @@ body{
 .sort-container{
     display: flex;
     justify-content: space-between;
-    padding: 2% 5%;
+    padding-bottom: 3%;
 }
 
 table {
@@ -67,6 +68,11 @@ th, td {
     border: 1px solid black; /* Add a solid black border to each cell */
     padding: 8px; /* Add padding for cell content */
     text-align: left;
+    cursor: default;
+}
+
+td{
+    cursor: pointer;
 }
 
 .selected {
@@ -77,4 +83,39 @@ th, td {
 #sort,
 #products{
     font-size: 16px;
+    background-color: darkgray;
+    cursor: pointer;
+}
+
+.main{
+    border-style: solid;
+    border-color: black;
+    border-radius: 0.5em;
+    background-color: darkgray;
+    padding: 1.5em;
+    overflow: auto;
+    max-height: 400px;
+}
+
+.controls{
+    display: flex;
+    justify-content: space-evenly;
+    text-align: center;
+    color: white;
+    align-items: center;
+    flex-wrap: wrap;
+    bottom: 0;
+    position: fixed;
+    width: 100%;
+}
+
+.control{
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    cursor: pointer;
+}
+
+.fa-2xl{
+    font-size: 4em;
 }

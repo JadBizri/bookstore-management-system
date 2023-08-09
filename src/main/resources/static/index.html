@@ -29,44 +29,66 @@
 
 <div class="container">
 
-    <div class="sort-container">
-        <div>
-            <label for="products">Show: </label>
-            <select name="products" id="products">
-                <option value="All">All</option>
-                <option value="Books">Books</option>
-                <option value="CDs">CDs</option>
-                <option value="DVDs">DVDs</option>
-            </select>
-        </div>
+    <div class="main">
 
-        <div>
-            <label for="sort">Sort By: </label>
-            <select name="sort" id="sort">
-                <option value="Default">Default</option>
-                <option value="PriceLow">Price (Lowest to Highest)</option>
-                <option value="PriceHigh">Price (Highest to Lowest)</option>
-                <option value="Type">Type</option>
-            </select>
-        </div>
 
-    </div>
-    <div id="productList">
-        <table>
-            <thead>
-            <tr>
-                <th>Name</th>
-                <th>Price</th>
-                <th>Author/Artist</th>
-                <th>Type</th>
-                <th>Copies</th>
-            </tr>
-            </thead>
-            <tbody id="productTableBody"></tbody>
-        </table>
+        <div class="sort-container">
+            <div>
+                <label for="products">Show: </label>
+                <select name="products" id="products">
+                    <option value="All">All</option>
+                    <option value="Books">Books</option>
+                    <option value="CDs">CDs</option>
+                    <option value="DVDs">DVDs</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="sort">Sort By: </label>
+                <select name="sort" id="sort">
+                    <option value="Default">Default</option>
+                    <option value="PriceLow">Price (Lowest to Highest)</option>
+                    <option value="PriceHigh">Price (Highest to Lowest)</option>
+                    <option value="Type">Type</option>
+                </select>
+            </div>
+
+        </div>
+        <div id="productList">
+            <table>
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Author/Artist</th>
+                    <th>Type</th>
+                    <th>Copies</th>
+                </tr>
+                </thead>
+                <tbody id="productTableBody"></tbody>
+            </table>
+        </div>
     </div>
 </div>
 
+<div class="footer controls">
+
+    <div class="add control">
+        <i class="fa-solid fa-plus fa-2xl" style="color: yellow;"></i>
+        <p>Add</p>
+    </div>
+
+    <div class="edit control">
+        <i class="fa-solid fa-pen-to-square fa-2xl" style="color: yellow"></i>
+        <p>Edit</p>
+    </div>
+
+    <div class="delete control">
+        <i class="fa-solid fa-trash fa-2xl" style="color: darkred"></i>
+        <p>Remove</p>
+    </div>
+
+</div>
 </body>
 <script src="./script.js"></script>
 </html>
