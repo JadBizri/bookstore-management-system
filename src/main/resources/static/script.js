@@ -1,4 +1,5 @@
 const productTableBody = document.getElementById('productTableBody');
+
 function insertProductRow(product, rows) {
     const row = productTableBody.insertRow();
     const nameCell = row.insertCell(0);
@@ -52,20 +53,42 @@ function updateTable() {
     const selectedSort = sortSelect.value;
     switch (selectedProduct) {
         case 'All':
-            fetchData('/api/v1/products',
-                data => {
-                    const rows = []; // Define the 'rows' array to store row elements
-                    data.forEach(product => {
-                        insertProductRow(product, rows);
-                    });
-                },
-                error => {
-                    // Handle error
-                    console.error('Error fetching data:', error);
-                }
-            );
+            fetchAllProducts();
             break;
         case 'Books':
+            fetchProductsByType('Book');
+            break;
+        case 'CDs':
+            fetchProductsByType('CD');
+            break;
+        case 'DVDs':
+            fetchProductsByType('DVD');
+            break;
+        default:
+            console.error('Something unexpected happened.');
+    }
+}
+
+updateTable();
+
+function fetchAllProducts() {
+    fetchData('/api/v1/products',
+        data => {
+            const rows = []; // Define the 'rows' array to store row elements
+            data.forEach(product => {
+                insertProductRow(product, rows);
+            });
+        },
+        error => {
+            // Handle error
+            console.error('Error fetching data:', error);
+        }
+    );
+}
+
+function fetchProductsByType(type) {
+    switch (type) {
+        case 'Book':
             fetchData('/api/v1/products/api/v1/products/type?type=Book',
                 data => {
                     const rows = []; // Define the 'rows' array to store row elements
@@ -79,7 +102,7 @@ function updateTable() {
                 }
             );
             break;
-        case 'CDs':
+        case 'CD':
             fetchData('/api/v1/products/api/v1/products/type?type=CD',
                 data => {
                     const rows = []; // Define the 'rows' array to store row elements
@@ -93,7 +116,7 @@ function updateTable() {
                 }
             );
             break;
-        case 'DVDs':
+        case 'DVD':
             fetchData('/api/v1/products/api/v1/products/type?type=DVD',
                 data => {
                     const rows = []; // Define the 'rows' array to store row elements
@@ -107,9 +130,6 @@ function updateTable() {
                 }
             );
             break;
-        default:
-            console.error('Something unexpected happened.');
     }
-}
 
-updateTable();
+}
