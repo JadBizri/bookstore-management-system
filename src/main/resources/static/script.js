@@ -34,7 +34,7 @@ function insertProductRow(product, rows) {
     const copiesCell = row.insertCell(4);
 
     //populate cells
-    nameCell.textContent = product.name;
+    nameCell.textContent = `${product.name} (${product.year})`;
     priceCell.textContent = `$${product.price.toFixed(2)}`;
     creatorCell.textContent = product.creator;
     copiesCell.textContent = product.numCopies;
@@ -96,13 +96,13 @@ function fetchSortedProducts(type, sortBy) {
     );
 }
 
+//add product form
 
 const showFormButton = document.getElementById('showFormButton');
 const closeFormButton = document.getElementById('closeFormButton');
 const overlay = document.getElementById('overlay');
 
 showFormButton.addEventListener('click', function() {
-    console.log("WAT DA HELLE");
     // Show the overlay and modal on button click
     overlay.style.display = 'flex';
 });
@@ -112,8 +112,7 @@ closeFormButton.addEventListener('click', function() {
     overlay.style.display = 'none';
 });
 
-
-//on load up, update table
+//on load, update table
 window.onload = function() {
     updateTable();
 };

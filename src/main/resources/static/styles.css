@@ -83,7 +83,7 @@ td{
 #sort,
 #products{
     font-size: 16px;
-    background-color: darkgray;
+    background-color: white;
     cursor: pointer;
 }
 
@@ -91,13 +91,13 @@ td{
     border-style: solid;
     border-color: black;
     border-radius: 0.5em;
-    background-color: darkgray;
+    background-color: lightgray;
     padding: 1.5em;
     overflow: auto;
     max-height: 400px;
 }
 
-.controls{
+.footer{
     display: flex;
     justify-content: space-evenly;
     text-align: center;
@@ -112,22 +112,21 @@ td{
 .control{
     display: flex;
     flex-direction: column;
-    gap: 30px;
+    gap: 25px;
     cursor: pointer;
 }
 
 .fa-2xl{
     font-size: 4em;
+    transition: transform 0.3s ease;
 }
 
+.fa-2xl:hover{
+    transform: translateY(-10px);
+}
 
+/* Add product form style */
 
-
-
-
-
-
-/* Initially hide the overlay */
 .overlay {
     display: none;
     position: fixed;
@@ -141,8 +140,53 @@ td{
 }
 
 .modal {
-    background-color: white;
+    background-color: lightgray;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.overlay .modal #addProductForm {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#addProductForm label {
+    font-weight: bold;
+}
+
+input[type="text"],
+input[type="number"],
+#productType {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    padding: 10px;
+    cursor: pointer;
+}
+
+#closeFormButton {
+    background-color: darkgray;
+    color: black;
+    border: none;
+    border-radius: 3px;
+    padding: 5px 10px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+button:hover{
+    background-color: #0056b3;
+}
+
+#closeFormButton:hover{
+    background-color: white;
 }

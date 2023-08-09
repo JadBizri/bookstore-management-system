@@ -61,7 +61,7 @@
                 <tr>
                     <th>Name</th>
                     <th>Price</th>
-                    <th>Author/Artist</th>
+                    <th>Author/Artist/Director</th>
                     <th>Type</th>
                     <th>Copies</th>
                 </tr>
@@ -95,9 +95,31 @@
     <div class="modal">
         <h2>Add Product Form</h2>
         <form id="addProductForm">
-            <!-- Form inputs... -->
+            <label for="productName">Name:</label>
+            <input type="text" id="productName" placeholder="Name" name="name" required>
+
+            <label for="productAuthorArtist">Author/Artist/Director:</label>
+            <input type="text" id="productAuthorArtist" placeholder="John Doe" name="creator" required>
+
+            <label for="productYear">Year:</label>
+            <input type="number" min="0" id="productYear" name="year" placeholder="2023" step="1" required>
+
+            <label for="productPrice">Price:</label>
+            <input type="number" min="0" id="productPrice" name="price" placeholder="0.00" step="1" required>
+
+            <label for="productType">Type:</label>
+            <select id="productType" name="type" required>
+                <option value="Book">Book</option>
+                <option value="CD">CD</option>
+                <option value="DVD">DVD</option>
+            </select>
+
+            <label for="numCopies">Number of Copies:</label>
+            <input type="number" id="numCopies" name="numCopies" min="1" value="1" required>
+
+            <button type="submit">Add Product</button>
         </form>
-        <button id="closeFormButton">Close</button>
+        <button id="closeFormButton">Cancel</button>
     </div>
 </div>
 
