@@ -35,7 +35,7 @@ public class ProductController {
     }
 
     //GET List of products, optionally by type or sorted
-    @GetMapping(value = { "/type", "/sort" })
+    @GetMapping(value = {"/type", "/sort"})
     public ResponseEntity<List<Product>> getProductsByTypeAndSort(
             @RequestParam(name = "type", required = false) String type,
             @RequestParam(name = "sort", required = false) String sort) {
@@ -59,17 +59,16 @@ public class ProductController {
             products = productRepository.findAll();
         }
 
-        System.out.println("HEREEEE --------> " + products.toString());
-
         if (!Objects.equals(sort, "Default")) {
             // Handle sorting
             if (sort.equals("PriceLow")) {
                 products.sort(Comparator.comparing(Product::getPrice));
             } else if (sort.equals("PriceHigh")) {
                 products.sort(Comparator.comparing(Product::getPrice).reversed());
-            } // Add more sorting options as needed
+            } else if (sort.equals("Type")) {
+                products.sort(Comparator.comparing(product -> product.getClass().getSimpleName()));
+            }
         }
-        System.out.println("HEREEEE --------> " + products.toString());
         return ResponseEntity.ok(products);
     }
 
