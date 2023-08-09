@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Comparator;
+import java.util.Objects;
 import java.util.Optional;
 
 @RestController
@@ -41,24 +42,26 @@ public class ProductController {
 
         List<Product> products;
 
-        if (type != null) {
+        if (!Objects.equals(type, "All")) {
             // Handle filtering by type
             Class<?> productType;
             switch (type) {
-                case "Book" -> productType = Book.class;
-                case "CD" -> productType = CD.class;
-                case "DVD" -> productType = DVD.class;
+                case "Books" -> productType = Book.class;
+                case "CDs" -> productType = CD.class;
+                case "DVDs" -> productType = DVD.class;
                 default -> {
                     return ResponseEntity.badRequest().build(); // Invalid type
                 }
             }
             products = productRepository.getProductsByType(productType);
         } else {
-            // Return all products if type parameter is not provided
+            // Return all products if type parameter is not provided ("All" is selected)
             products = productRepository.findAll();
         }
 
-        if (sort != null) {
+        System.out.println("HEREEEE --------> " + products.toString());
+
+        if (!Objects.equals(sort, "Default")) {
             // Handle sorting
             if (sort.equals("PriceLow")) {
                 products.sort(Comparator.comparing(Product::getPrice));
@@ -66,6 +69,7 @@ public class ProductController {
                 products.sort(Comparator.comparing(Product::getPrice).reversed());
             } // Add more sorting options as needed
         }
+        System.out.println("HEREEEE --------> " + products.toString());
         return ResponseEntity.ok(products);
     }
 

@@ -49,24 +49,14 @@ function updateTable() {
     productTableBody.innerHTML = '';
 
     // Get selected options
-    const selectedProduct = productsSelect.value;
-    const selectedSort = sortSelect.value;
-    switch (selectedProduct) {
-        case 'All':
-            fetchAllProducts();
-            break;
-        case 'Books':
-            fetchProductsByType('Book');
-            break;
-        case 'CDs':
-            fetchProductsByType('CD');
-            break;
-        case 'DVDs':
-            fetchProductsByType('DVD');
-            break;
-        default:
-            console.error('Something unexpected happened.');
+    let selectedProduct = productsSelect.value;
+    let selectedSort = sortSelect.value;
+
+    if (selectedProduct === 'All' && selectedSort === 'Default') {
+        fetchAllProducts();
+        return;
     }
+    fetchSortedProducts(selectedProduct, selectedSort);
 }
 
 updateTable();
@@ -86,10 +76,25 @@ function fetchAllProducts() {
     );
 }
 
+function fetchSortedProducts(type, sortBy) {
+    fetchData(`/api/v1/products/sort?type=${type}&sort=${sortBy}`,
+        data => {
+            const rows = []; // Define the 'rows' array to store row elements
+            data.forEach(product => {
+                insertProductRow(product, rows);
+            });
+        },
+        error => {
+            // Handle error
+            console.error('Error fetching data:', error);
+        }
+    );
+}
+
 function fetchProductsByType(type) {
     switch (type) {
         case 'Book':
-            fetchData('/api/v1/products/api/v1/products/type?type=Book',
+            fetchData('/api/v1/products/sort?type=Book',
                 data => {
                     const rows = []; // Define the 'rows' array to store row elements
                     data.forEach(product => {
