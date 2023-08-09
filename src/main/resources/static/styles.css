@@ -73,3 +73,8 @@ th, td {
     background-color: #3882F6;
     color: white;
 }
+
+#sort,
+#products{
+    font-size: 16px;
+}
