@@ -6,6 +6,7 @@
     <title>Bookstore</title>
     <script src="https://kit.fontawesome.com/07187c1f27.js" crossorigin="anonymous"></script>
     <link href="./styles.css" rel="stylesheet">
+    <script src="./script.js" async></script>
 </head>
 <body>
 <div class="header">
@@ -73,7 +74,7 @@
 
 <div class="footer controls">
 
-    <div class="add control">
+    <div class="add control" id="showFormButton">
         <i class="fa-solid fa-plus fa-2xl" style="color: yellow;"></i>
         <p>Add</p>
     </div>
@@ -89,6 +90,16 @@
     </div>
 
 </div>
+
+<div class="overlay" id="overlay">
+    <div class="modal">
+        <h2>Add Product Form</h2>
+        <form id="addProductForm">
+            <!-- Form inputs... -->
+        </form>
+        <button id="closeFormButton">Close</button>
+    </div>
+</div>
+
 </body>
-<script src="./script.js"></script>
 </html>

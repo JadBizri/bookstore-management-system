@@ -96,7 +96,25 @@ function fetchSortedProducts(type, sortBy) {
     );
 }
 
+
+const showFormButton = document.getElementById('showFormButton');
+const closeFormButton = document.getElementById('closeFormButton');
+const overlay = document.getElementById('overlay');
+
+showFormButton.addEventListener('click', function() {
+    console.log("WAT DA HELLE");
+    // Show the overlay and modal on button click
+    overlay.style.display = 'flex';
+});
+
+closeFormButton.addEventListener('click', function() {
+    // Close the overlay and modal on button click
+    overlay.style.display = 'none';
+});
+
+
 //on load up, update table
 window.onload = function() {
     updateTable();
 };
+
