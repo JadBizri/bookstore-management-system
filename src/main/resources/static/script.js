@@ -45,6 +45,13 @@ function insertProductRow(product, rows) {
 
     //add a click event listener to highlight the clicked row
     row.addEventListener('click', () => {
+
+        //if row is already selected, then unselect and return
+        if(row.classList.contains('selected')){
+            row.classList.remove('selected');
+            return;
+        }
+
         //remove highlight from previously selected rows
         rows.forEach(r => r.classList.remove('selected'));
 
