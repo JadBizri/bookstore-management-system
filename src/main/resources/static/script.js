@@ -1,4 +1,25 @@
 const productTableBody = document.getElementById('productTableBody');
+const productsSelect = document.getElementById('products');
+const sortSelect = document.getElementById('sort');
+
+productsSelect.addEventListener('change', updateTable);
+sortSelect.addEventListener('change', updateTable);
+
+function updateTable() {
+
+    // Clear the existing table rows
+    productTableBody.innerHTML = '';
+
+    // Get selected options
+    let selectedProduct = productsSelect.value;
+    let selectedSort = sortSelect.value;
+
+    if (selectedProduct === 'All' && selectedSort === 'Default') {
+        fetchAllProducts();
+        return;
+    }
+    fetchSortedProducts(selectedProduct, selectedSort);
+}
 
 function insertProductRow(product, rows) {
     const row = productTableBody.insertRow();
@@ -37,30 +58,6 @@ function fetchData(url, successCallback, errorCallback) {
         });
 }
 
-const productsSelect = document.getElementById('products');
-const sortSelect = document.getElementById('sort');
-
-productsSelect.addEventListener('change', updateTable);
-sortSelect.addEventListener('change', updateTable);
-
-function updateTable() {
-
-    // Clear the existing table rows
-    productTableBody.innerHTML = '';
-
-    // Get selected options
-    let selectedProduct = productsSelect.value;
-    let selectedSort = sortSelect.value;
-
-    if (selectedProduct === 'All' && selectedSort === 'Default') {
-        fetchAllProducts();
-        return;
-    }
-    fetchSortedProducts(selectedProduct, selectedSort);
-}
-
-updateTable();
-
 function fetchAllProducts() {
     fetchData('/api/v1/products',
         data => {
@@ -91,50 +88,4 @@ function fetchSortedProducts(type, sortBy) {
     );
 }
 
-function fetchProductsByType(type) {
-    switch (type) {
-        case 'Book':
-            fetchData('/api/v1/products/sort?type=Book',
-                data => {
-                    const rows = []; // Define the 'rows' array to store row elements
-                    data.forEach(product => {
-                        insertProductRow(product, rows);
-                    });
-                },
-                error => {
-                    // Handle error
-                    console.error('Error fetching data:', error);
-                }
-            );
-            break;
-        case 'CD':
-            fetchData('/api/v1/products/api/v1/products/type?type=CD',
-                data => {
-                    const rows = []; // Define the 'rows' array to store row elements
-                    data.forEach(product => {
-                        insertProductRow(product, rows);
-                    });
-                },
-                error => {
-                    // Handle error
-                    console.error('Error fetching data:', error);
-                }
-            );
-            break;
-        case 'DVD':
-            fetchData('/api/v1/products/api/v1/products/type?type=DVD',
-                data => {
-                    const rows = []; // Define the 'rows' array to store row elements
-                    data.forEach(product => {
-                        insertProductRow(product, rows);
-                    });
-                },
-                error => {
-                    // Handle error
-                    console.error('Error fetching data:', error);
-                }
-            );
-            break;
-    }
-
-}
+updateTable();
