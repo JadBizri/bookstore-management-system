@@ -49,6 +49,20 @@ public class ProductController {
         return ResponseEntity.ok(products);
     }
 
+    //GET List of products sorted by price low to high
+    @GetMapping("/api/v1/products/price-low-to-high")
+    public ResponseEntity<List<Product>> getProductsByPriceLowToHigh() {
+        List<Product> products = productRepository.getProductsByPriceLowToHigh();
+        return ResponseEntity.ok(products);
+    }
+
+    //GET List of products sorted by price high to low
+    @GetMapping("/api/v1/products/price-high-to-low")
+    public ResponseEntity<List<Product>> getProductsByPriceHighToLow() {
+        List<Product> products = productRepository.getProductsByPriceHighToLow();
+        return ResponseEntity.ok(products);
+    }
+
     //GET Product by ID
     @GetMapping("/{id}")
     public ResponseEntity<Product> getProductById(@PathVariable long id) {
