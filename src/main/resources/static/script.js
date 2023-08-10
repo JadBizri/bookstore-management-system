@@ -1,12 +1,19 @@
+//on load, update table
+window.onload = function () {
+    updateTable();
+};
+
 //where rows will be inserted
 const productTableBody = document.getElementById('productTableBody');
 
-const productsSelect = document.getElementById('products'); //show drop down
+const productsSelect = document.getElementById('products'); //show product drop down
 const sortSelect = document.getElementById('sort'); //sort drop down
 
 //update table on any change of any drop down
 productsSelect.addEventListener('change', updateTable);
 sortSelect.addEventListener('change', updateTable);
+
+//GET functionality
 
 //function to update the table based on selected options
 function updateTable() {
@@ -96,71 +103,91 @@ function fetchSortedProducts(type, sortBy) {
     );
 }
 
-//add product form
+//POST functionality
 
-const showFormButton = document.getElementById('showFormButton');
-const closeFormButton = document.getElementById('closeFormButton');
-const overlay = document.getElementById('overlay');
+//add new product form
+const showFormButton = document.getElementById('showFormButton'); //the add button
+const closeFormButton = document.getElementById('closeFormButton'); //cancel button on form
+const overlay = document.getElementById('overlay'); //the form overlay
 
+//show form on click
 showFormButton.addEventListener('click', function () {
-    // Show the overlay and modal on button click
+    //show the overlay and modal on button click
     overlay.style.display = 'flex';
 });
 
+//hide form on click
 closeFormButton.addEventListener('click', function () {
-    // Close the overlay and modal on button click
+    //close the overlay and modal on button click
     overlay.style.display = 'none';
 });
 
-//on load, update table
-window.onload = function () {
-    updateTable();
-};
-
-// Select the form element and listen for the submit event
-const productForm = document.getElementById('addProductForm');
+//select the form element and listen for the submit event
+const productForm = document.getElementById('addProductForm'); //the form
 productForm.addEventListener('submit', (event) => {
     event.preventDefault(); // Prevent the default form submission
 
-    // Collect form data
+    //collect form data
     const formData = new FormData(productForm);
 
-    // Convert form data to JSON
+    //convert form data to JSON, key (i.e. 'name') and value (i.e. 'Harry Potter Book')
     const productData = {};
     formData.forEach((value, key) => {
         productData[key] = value;
     });
 
+    //if it is a book then ask for isbn in addition
     if (productData.type === 'Book') {
         let isbn = prompt("What is the book's ISBN?");
         if (isbn == null || isbn === "") {
             isbn = "Unknown";
         }
         productData['isbn'] = isbn;
-        sendNewProduct('/api/v1/products/book', productData);
+
+        //add new book
+        sendNewProduct('/api/v1/products/book', productData).then(r => {
+            updateTable();
+            overlay.style.display = 'none';
+        });
+
     } else if (productData.type === 'CD') {
-        sendNewProduct('/api/v1/products/cd', productData);
+        //add new cd
+        sendNewProduct('/api/v1/products/cd', productData).then(r => {
+                updateTable();
+                overlay.style.display = 'none';
+            }
+        );
+
     } else if (productData.type === 'DVD') {
-        sendNewProduct('/api/v1/products/dvd', productData);
+        //add new dvd
+        sendNewProduct('/api/v1/products/dvd', productData).then(r => {
+            updateTable();
+            overlay.style.display = 'none';
+        });
     }
-    overlay.style.display = 'none';
-    updateTable();
 });
 
-function sendNewProduct(url, productData) {
-    // Send a POST request to the server
-    fetch(url, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(productData),
-    })
-        .then(response => response.json())
-        .then(data => {
-            // Handle success or display a success message
-        })
-        .catch(error => {
-            // Handle error or display an error message
+//POST request function that sends data to add a new product to the database
+async function sendNewProduct(url, productData) {
+    try {
+        //send a POST request to the server
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(productData),
         });
+
+        //handle error
+        if (!(response.ok)) {
+            const errorData = await response.json();
+            //display an error message to the user
+            alert("Error. Make sure you don't add something that already exists!");
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        //display an error message to the user
+        alert('An error occurred while sending the data. Please try again.');
+    }
 }
