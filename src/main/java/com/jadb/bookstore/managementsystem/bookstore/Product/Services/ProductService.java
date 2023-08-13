@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -61,17 +62,17 @@ public class ProductService {
                     book.setIsbn(((Book) updatedProduct).getIsbn());
                     Optional<Book> bookOptional = productRepository
                             .findBookByIsbn(book.getIsbn());
-                    if (bookOptional.isPresent())
+                    if (bookOptional.isPresent() && !Objects.equals(book.getIsbn(), bookOptional.get().getIsbn()))
                         throw new IllegalStateException("Book exists!");
                 }
-                case CD ignored -> {
+                case CD cd -> {
                     Optional<CD> cdOptional = productRepository.findCdByName(existingProduct.getName());
-                    if (cdOptional.isPresent())
+                    if (cdOptional.isPresent() && !Objects.equals(cd.getName(), cdOptional.get().getName()))
                         throw new IllegalStateException("CD exists!");
                 }
-                case DVD ignored -> {
+                case DVD dvd -> {
                     Optional<DVD> dvdOptional = productRepository.findDvdByName(existingProduct.getName());
-                    if (dvdOptional.isPresent())
+                    if (dvdOptional.isPresent() && !Objects.equals(dvd.getName(), dvdOptional.get().getName()))
                         throw new IllegalStateException("DVD exists!");
                 }
                 default -> throw new IllegalStateException("Unexpected Error - No Type Found");
