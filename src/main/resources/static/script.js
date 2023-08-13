@@ -172,7 +172,6 @@ function handleAddFormSubmit(event) {
     formData.forEach((value, key) => {
         productData[key] = value;
     });
-    console.log(productData);
 
     //if it is a book then ask for ISBN in addition
     if (productData.type === 'Book') {
@@ -281,7 +280,6 @@ function handleEditFormSubmit(event) {
     //convert form data to JSON, key (i.e. 'name') and value (i.e. 'Harry Potter Book')
     const productData = {};
     formData.forEach((value, key) => {
-        console.log(`Key: ${key}, Value: ${value}`);
         productData[key] = value;
     });
 
@@ -291,25 +289,34 @@ function handleEditFormSubmit(event) {
         })
             .then(response => response.json())
             .then(product => {
-                    //if it is a book then ask for ISBN in addition
-                    let isbn = prompt("Update Book's ISBN?", product.isbn);
-                    if (isbn == null || isbn === "") {
-                        isbn = "Unknown";
-                    }
-                    productData['isbn'] = isbn;
+                //if it is a book then ask for ISBN in addition
+                let isbn = prompt("Update Book's ISBN?", product.isbn);
+                if (isbn === "") {
+                    isbn = null;
                 }
-            )
+                productData['isbn'] = isbn;
+
+                //update the book
+                sendUpdatedProduct(productData, selectedProduct.id).then(() => {
+                    updateTable();
+                    editOverlay.style.display = 'none';
+                });
+            })
             .catch(error => {
                 console.error('Error fetching product:', error);
             });
     }
+
     //update product
-    sendUpdatedProduct(productData, selectedProduct.id).then(() => {
-        updateTable();
-        editOverlay.style.display = 'none';
-    });
+    else {
+        sendUpdatedProduct(productData, selectedProduct.id).then(() => {
+            updateTable();
+            editOverlay.style.display = 'none';
+        });
+    }
 }
 
+//function that sends the data to be updated in the selected product
 async function sendUpdatedProduct(productData, id) {
     try {
         //send a PUT request to the server
@@ -330,6 +337,6 @@ async function sendUpdatedProduct(productData, id) {
     } catch (error) {
         console.error('Error:', error);
         //display an error message to the user
-        alert('An error occurred while sending the data. Please try again.');
+        alert("Error. Make sure you don't edit it to something that already exists!");
     }
 }
