@@ -116,6 +116,15 @@ td{
     cursor: pointer;
 }
 
+#edit-button.disabled{
+    transition: none;
+    cursor: default;
+}
+
+#edit-button.disabled .fa-2xl:hover{
+    transform: none;
+}
+
 .fa-2xl{
     font-size: 4em;
     transition: transform 0.3s ease;
@@ -125,7 +134,7 @@ td{
     transform: translateY(-10px);
 }
 
-/* Add product form style */
+/* Add/edit product forms style */
 
 .overlay {
     display: none;
@@ -146,19 +155,20 @@ td{
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.overlay .modal #addProductForm {
+.form{
     display: flex;
     flex-direction: column;
     gap: 10px;
 }
 
-#addProductForm label {
+.form label{
     font-weight: bold;
 }
 
 input[type="text"],
 input[type="number"],
-#productType {
+#productType,
+#productType2{
     padding: 5px;
     border: 1px solid #ccc;
     border-radius: 3px;
@@ -173,7 +183,8 @@ button {
     cursor: pointer;
 }
 
-#closeFormButton {
+#closeFormButton,
+#closeFormButton2{
     background-color: darkgray;
     color: black;
     border: none;
@@ -187,6 +198,7 @@ button:hover{
     background-color: #0056b3;
 }
 
-#closeFormButton:hover{
+#closeFormButton:hover,
+#closeFormButton2:hover{
     background-color: white;
 }

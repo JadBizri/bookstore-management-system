@@ -52,19 +52,47 @@ function insertProductRow(product, rows) {
 
     //add a click event listener to highlight the clicked row
     row.addEventListener('click', () => {
-
-        //if row is already selected, then unselect and return
-        if (row.classList.contains('selected')) {
-            row.classList.remove('selected');
-            return;
-        }
-
-        //remove highlight from previously selected rows
-        rows.forEach(r => r.classList.remove('selected'));
-
-        //add highlight to the clicked row
-        row.classList.add('selected');
+        highlightRow(row, rows);
     });
+}
+
+const icon = document.querySelector('.fa-pen-to-square'); //to change icon color
+let selectedProduct = null; //to store selected product for later use
+//function that highlights a selected row
+function highlightRow(row, rows) {
+    //if row is already selected, then unselect and return
+    if (row.classList.contains('selected')) {
+        row.classList.remove('selected');
+        selectedProduct = null;
+        showEditFormButton.classList.add('disabled');
+        icon.style.color = 'grey';
+        return;
+    }
+
+    showEditFormButton.classList.remove('disabled');
+    icon.style.color = 'yellow';
+
+    //remove highlight from previously selected rows
+    rows.forEach(r => r.classList.remove('selected'));
+
+    //add highlight to the clicked row
+    row.classList.add('selected');
+
+    //extract name only without year from table
+    const name = row.cells[0].textContent.replace(/\s*\(.*?\)\s*/g, '');
+    //extract the year by using regular expression to match a four-digit number
+    const yearMatch = row.cells[0].textContent.match(/\d{4}/);
+    const year = yearMatch ? parseInt(yearMatch[0]) : null;
+
+    //get the product information from the selected row
+    selectedProduct = {
+        name: name,
+        price: parseFloat(row.cells[1].textContent.replace('$', '')),
+        creator: row.cells[2].textContent,
+        type: row.cells[3].textContent,
+        numCopies: parseInt(row.cells[4].textContent),
+        year: year
+    };
 }
 
 //function to fetch data from the provided URL and handle success or error
@@ -123,20 +151,24 @@ closeFormButton.addEventListener('click', function () {
 });
 
 //select the form element and listen for the submit event
-const productForm = document.getElementById('addProductForm'); //the form
-productForm.addEventListener('submit', (event) => {
+const addForm = document.getElementById('addProductForm'); //the add form
+
+//attach the function as the event listener
+addForm.addEventListener('submit', handleAddFormSubmit);
+
+function handleAddFormSubmit(event) {
     event.preventDefault(); // Prevent the default form submission
 
-    //collect form data
-    const formData = new FormData(productForm);
+    // Collect form data
+    const formData = new FormData(addForm);
 
-    //convert form data to JSON, key (i.e. 'name') and value (i.e. 'Harry Potter Book')
+    // Convert form data to JSON, key (i.e. 'name') and value (i.e. 'Harry Potter Book')
     const productData = {};
     formData.forEach((value, key) => {
         productData[key] = value;
     });
 
-    //if it is a book then ask for isbn in addition
+    // If it is a book then ask for ISBN in addition
     if (productData.type === 'Book') {
         let isbn = prompt("What is the book's ISBN?");
         if (isbn == null || isbn === "") {
@@ -144,28 +176,26 @@ productForm.addEventListener('submit', (event) => {
         }
         productData['isbn'] = isbn;
 
-        //add new book
-        sendNewProduct('/api/v1/products/book', productData).then(r => {
+        // Add new book
+        sendNewProduct('/api/v1/products/book', productData).then(() => {
+            updateTable();
+            overlay.style.display = 'none';
+        });
+    } else if (productData.type === 'CD') {
+        // Add new CD
+        sendNewProduct('/api/v1/products/cd', productData).then(() => {
             updateTable();
             overlay.style.display = 'none';
         });
 
-    } else if (productData.type === 'CD') {
-        //add new cd
-        sendNewProduct('/api/v1/products/cd', productData).then(r => {
-                updateTable();
-                overlay.style.display = 'none';
-            }
-        );
-
     } else if (productData.type === 'DVD') {
-        //add new dvd
-        sendNewProduct('/api/v1/products/dvd', productData).then(r => {
+        // Add new DVD
+        sendNewProduct('/api/v1/products/dvd', productData).then(() => {
             updateTable();
             overlay.style.display = 'none';
         });
     }
-});
+}
 
 //POST request function that sends data to add a new product to the database
 async function sendNewProduct(url, productData) {
@@ -181,7 +211,7 @@ async function sendNewProduct(url, productData) {
 
         //handle error
         if (!(response.ok)) {
-            const errorData = await response.json();
+            await response.json();
             //display an error message to the user
             alert("Error. Make sure you don't add something that already exists!");
         }
@@ -191,3 +221,46 @@ async function sendNewProduct(url, productData) {
         alert('An error occurred while sending the data. Please try again.');
     }
 }
+
+//PUT functionality
+
+//edit product form
+const showEditFormButton = document.getElementById('edit-button'); //the edit button
+const closeEditFormButton = document.getElementById('closeFormButton2'); //cancel button on form
+const editOverlay = document.getElementById('overlay2'); //the form overlay
+
+//input elements in edit form
+const nameInput = document.getElementById('productName2');
+const priceInput = document.getElementById('productPrice2');
+const creatorInput = document.getElementById('creator2');
+const typeInput = document.getElementById('productType2');
+const copiesInput = document.getElementById('numCopies2');
+const yearInput = document.getElementById('productYear2');
+
+//show edit form on click
+showEditFormButton.addEventListener('click', function () {
+    if (selectedProduct) {
+        //pre-fill the form with the selected product's information
+        nameInput.value = selectedProduct.name;
+        creatorInput.value = selectedProduct.creator;
+        typeInput.value = selectedProduct.type;
+        copiesInput.value = selectedProduct.numCopies;
+        yearInput.value = selectedProduct.year;
+        priceInput.value = selectedProduct.price.toFixed(2);
+
+        //display the edit form
+        editOverlay.style.display = 'flex';
+    }
+});
+
+//hide form on click
+closeEditFormButton.addEventListener('click', function () {
+    //close the overlay and modal on button click
+    editOverlay.style.display = 'none';
+});
+
+//select the edit form element and listen for the submit event
+const editForm = document.getElementById('editProductForm'); //the edit form
+
+//attach the function as the event listener
+//editForm.addEventListener('submit', handleEditFormSubmit);
