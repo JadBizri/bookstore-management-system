@@ -18,10 +18,10 @@ sortSelect.addEventListener('change', updateTable);
 //function to update the table based on selected options
 function updateTable() {
 
-    // Clear the existing table rows
+    //clear the existing table rows
     productTableBody.innerHTML = '';
 
-    // Get selected options
+    //get selected options
     let selectedProduct = productsSelect.value;
     let selectedSort = sortSelect.value;
 
@@ -34,13 +34,15 @@ function insertProductRow(product, rows) {
     const row = productTableBody.insertRow();
 
     //cells for each column
-    const nameCell = row.insertCell(0);
-    const priceCell = row.insertCell(1);
-    const creatorCell = row.insertCell(2);
-    const typeCell = row.insertCell(3);
-    const copiesCell = row.insertCell(4);
+    const idCell = row.insertCell(0);
+    const nameCell = row.insertCell(1);
+    const priceCell = row.insertCell(2);
+    const creatorCell = row.insertCell(3);
+    const typeCell = row.insertCell(4);
+    const copiesCell = row.insertCell(5);
 
     //populate cells
+    idCell.textContent = product.id;
     nameCell.textContent = `${product.name} (${product.year})`;
     priceCell.textContent = `$${product.price.toFixed(2)}`;
     creatorCell.textContent = product.creator;
@@ -69,6 +71,7 @@ function highlightRow(row, rows) {
         return;
     }
 
+    //make edit button clickable
     showEditFormButton.classList.remove('disabled');
     icon.style.color = 'yellow';
 
@@ -79,18 +82,19 @@ function highlightRow(row, rows) {
     row.classList.add('selected');
 
     //extract name only without year from table
-    const name = row.cells[0].textContent.replace(/\s*\(.*?\)\s*/g, '');
+    const name = row.cells[1].textContent.replace(/\s*\(.*?\)\s*/g, '');
     //extract the year by using regular expression to match a four-digit number
-    const yearMatch = row.cells[0].textContent.match(/\d{4}/);
+    const yearMatch = row.cells[1].textContent.match(/\d{4}/);
     const year = yearMatch ? parseInt(yearMatch[0]) : null;
 
     //get the product information from the selected row
     selectedProduct = {
+        id: BigInt(parseInt(row.cells[0].textContent)),
         name: name,
-        price: parseFloat(row.cells[1].textContent.replace('$', '')),
-        creator: row.cells[2].textContent,
-        type: row.cells[3].textContent,
-        numCopies: parseInt(row.cells[4].textContent),
+        price: parseFloat(row.cells[2].textContent.replace('$', '')),
+        creator: row.cells[3].textContent,
+        type: row.cells[4].textContent,
+        numCopies: parseInt(row.cells[5].textContent),
         year: year
     };
 }
@@ -156,19 +160,21 @@ const addForm = document.getElementById('addProductForm'); //the add form
 //attach the function as the event listener
 addForm.addEventListener('submit', handleAddFormSubmit);
 
+//function that handles the add product form submission
 function handleAddFormSubmit(event) {
-    event.preventDefault(); // Prevent the default form submission
+    event.preventDefault(); //prevent the default form submission
 
-    // Collect form data
+    //collect form data
     const formData = new FormData(addForm);
 
-    // Convert form data to JSON, key (i.e. 'name') and value (i.e. 'Harry Potter Book')
+    //convert form data to JSON, key (i.e. 'name') and value (i.e. 'Harry Potter Book')
     const productData = {};
     formData.forEach((value, key) => {
         productData[key] = value;
     });
+    console.log(productData);
 
-    // If it is a book then ask for ISBN in addition
+    //if it is a book then ask for ISBN in addition
     if (productData.type === 'Book') {
         let isbn = prompt("What is the book's ISBN?");
         if (isbn == null || isbn === "") {
@@ -176,20 +182,20 @@ function handleAddFormSubmit(event) {
         }
         productData['isbn'] = isbn;
 
-        // Add new book
+        //add new book
         sendNewProduct('/api/v1/products/book', productData).then(() => {
             updateTable();
             overlay.style.display = 'none';
         });
     } else if (productData.type === 'CD') {
-        // Add new CD
+        //add new CD
         sendNewProduct('/api/v1/products/cd', productData).then(() => {
             updateTable();
             overlay.style.display = 'none';
         });
 
     } else if (productData.type === 'DVD') {
-        // Add new DVD
+        //add new DVD
         sendNewProduct('/api/v1/products/dvd', productData).then(() => {
             updateTable();
             overlay.style.display = 'none';
@@ -246,7 +252,7 @@ showEditFormButton.addEventListener('click', function () {
         typeInput.value = selectedProduct.type;
         copiesInput.value = selectedProduct.numCopies;
         yearInput.value = selectedProduct.year;
-        priceInput.value = selectedProduct.price.toFixed(2);
+        priceInput.value = selectedProduct.price;
 
         //display the edit form
         editOverlay.style.display = 'flex';
@@ -263,4 +269,67 @@ closeEditFormButton.addEventListener('click', function () {
 const editForm = document.getElementById('editProductForm'); //the edit form
 
 //attach the function as the event listener
-//editForm.addEventListener('submit', handleEditFormSubmit);
+editForm.addEventListener('submit', handleEditFormSubmit);
+
+//function that handles the add product form submission
+function handleEditFormSubmit(event) {
+    event.preventDefault(); //prevent the default form submission
+
+    //collect form data
+    const formData = new FormData(editForm);
+
+    //convert form data to JSON, key (i.e. 'name') and value (i.e. 'Harry Potter Book')
+    const productData = {};
+    formData.forEach((value, key) => {
+        console.log(`Key: ${key}, Value: ${value}`);
+        productData[key] = value;
+    });
+
+    if (productData.type === 'Book') {
+        fetch(`/api/v1/products/${selectedProduct.id}`, {
+            method: 'GET'
+        })
+            .then(response => response.json())
+            .then(product => {
+                    //if it is a book then ask for ISBN in addition
+                    let isbn = prompt("Update Book's ISBN?", product.isbn);
+                    if (isbn == null || isbn === "") {
+                        isbn = "Unknown";
+                    }
+                    productData['isbn'] = isbn;
+                }
+            )
+            .catch(error => {
+                console.error('Error fetching product:', error);
+            });
+    }
+    //update product
+    sendUpdatedProduct(productData, selectedProduct.id).then(() => {
+        updateTable();
+        editOverlay.style.display = 'none';
+    });
+}
+
+async function sendUpdatedProduct(productData, id) {
+    try {
+        //send a PUT request to the server
+        const response = await fetch(`/api/v1/products/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(productData),
+        });
+
+        //handle error
+        if (!(response.ok)) {
+            await response.json();
+            //display an error message to the user
+            alert("Error. Make sure you don't edit it to something that already exists!");
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        //display an error message to the user
+        alert('An error occurred while sending the data. Please try again.');
+    }
+}
