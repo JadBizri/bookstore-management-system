@@ -58,7 +58,8 @@ function insertProductRow(product, rows) {
     });
 }
 
-const icon = document.querySelector('.fa-pen-to-square'); //to change icon color
+const icon = document.querySelector('.fa-pen-to-square'); //to change edit icon color
+const icon2 = document.querySelector('.fa-trash'); //to change remove icon color
 let selectedProduct = null; //to store selected product for later use
 //function that highlights a selected row
 function highlightRow(row, rows) {
@@ -67,12 +68,16 @@ function highlightRow(row, rows) {
         row.classList.remove('selected');
         selectedProduct = null;
         showEditFormButton.classList.add('disabled');
+        deleteButton.classList.add('greyed');
         icon.style.color = 'grey';
+        icon2.style.color = 'grey';
         return;
     }
 
-    //make edit button clickable
+    //make edit and remove buttons clickable
     showEditFormButton.classList.remove('disabled');
+    deleteButton.classList.remove('greyed');
+    icon2.style.color = 'darkred';
     icon.style.color = 'yellow';
 
     //remove highlight from previously selected rows
@@ -340,3 +345,18 @@ async function sendUpdatedProduct(productData, id) {
         alert("Error. Make sure you don't edit it to something that already exists!");
     }
 }
+
+//DELETE functionality
+
+const deleteButton = document.getElementById('delete-button'); //the delete button
+deleteButton.addEventListener('click', function () {
+    if(selectedProduct){
+        //confirm prompt
+        const result = confirm("Are you sure you want to delete this product FOREVER?");
+        if (result === true) {
+
+        } else {
+
+        }
+    }
+});

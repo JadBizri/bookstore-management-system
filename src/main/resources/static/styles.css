@@ -4,7 +4,7 @@ html {
     background-color: #202123;
 }
 
-body{
+body {
     margin: 0;
 }
 
@@ -27,33 +27,33 @@ body{
 }
 
 .techs,
-.title{
+.title {
     cursor: default;
 }
 
-.title{
+.title {
     text-align: center;
     color: white;
     font-size: 42px;
 }
 
-.container{
+.container {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
 #productList,
-.sort-container{
+.sort-container {
     width: 100%;
 }
 
-.contact li a{
+.contact li a {
     text-decoration: none;
     color: white;
 }
 
-.sort-container{
+.sort-container {
     display: flex;
     justify-content: space-between;
     padding-bottom: 3%;
@@ -71,7 +71,7 @@ th, td {
     cursor: default;
 }
 
-td{
+td {
     cursor: pointer;
 }
 
@@ -81,13 +81,13 @@ td{
 }
 
 #sort,
-#products{
+#products {
     font-size: 16px;
     background-color: white;
     cursor: pointer;
 }
 
-.main{
+.main {
     border-style: solid;
     border-color: black;
     border-radius: 0.5em;
@@ -97,7 +97,7 @@ td{
     max-height: 400px;
 }
 
-.footer{
+.footer {
     display: flex;
     justify-content: space-evenly;
     text-align: center;
@@ -109,28 +109,30 @@ td{
     width: 100%;
 }
 
-.control{
+.control {
     display: flex;
     flex-direction: column;
     gap: 25px;
     cursor: pointer;
 }
 
-#edit-button.disabled{
+#delete-button.greyed,
+#edit-button.disabled {
     transition: none;
     cursor: default;
 }
 
-#edit-button.disabled .fa-2xl:hover{
+#delete-button.greyed .fa-2xl:hover,
+#edit-button.disabled .fa-2xl:hover {
     transform: none;
 }
 
-.fa-2xl{
+.fa-2xl {
     font-size: 4em;
     transition: transform 0.3s ease;
 }
 
-.fa-2xl:hover{
+.fa-2xl:hover {
     transform: translateY(-10px);
 }
 
@@ -155,20 +157,20 @@ td{
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.form{
+.form {
     display: flex;
     flex-direction: column;
     gap: 10px;
 }
 
-.form label{
+.form label {
     font-weight: bold;
 }
 
 input[type="text"],
 input[type="number"],
 #productType,
-#productType2{
+#productType2 {
     padding: 5px;
     border: 1px solid #ccc;
     border-radius: 3px;
@@ -184,7 +186,7 @@ button {
 }
 
 #closeFormButton,
-#closeFormButton2{
+#closeFormButton2 {
     background-color: darkgray;
     color: black;
     border: none;
@@ -194,11 +196,11 @@ button {
     margin-top: 10px;
 }
 
-button:hover{
+button:hover {
     background-color: #0056b3;
 }
 
 #closeFormButton:hover,
-#closeFormButton2:hover{
+#closeFormButton2:hover {
     background-color: white;
 }
