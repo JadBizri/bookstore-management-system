@@ -26,6 +26,9 @@ function updateTable() {
     let selectedSort = sortSelect.value;
 
     fetchSortedProducts(selectedProduct, selectedSort);
+
+    selectedProduct = null;
+    changeIcons();
 }
 
 //function to insert a new row into the product table with product data
@@ -67,18 +70,9 @@ function highlightRow(row, rows) {
     if (row.classList.contains('selected')) {
         row.classList.remove('selected');
         selectedProduct = null;
-        showEditFormButton.classList.add('disabled');
-        deleteButton.classList.add('greyed');
-        icon.style.color = 'grey';
-        icon2.style.color = 'grey';
+        changeIcons();
         return;
     }
-
-    //make edit and remove buttons clickable
-    showEditFormButton.classList.remove('disabled');
-    deleteButton.classList.remove('greyed');
-    icon2.style.color = 'darkred';
-    icon.style.color = 'yellow';
 
     //remove highlight from previously selected rows
     rows.forEach(r => r.classList.remove('selected'));
@@ -102,6 +96,9 @@ function highlightRow(row, rows) {
         numCopies: parseInt(row.cells[5].textContent),
         year: year
     };
+
+    //make edit and remove buttons clickable
+    changeIcons();
 }
 
 //function to fetch data from the provided URL and handle success or error
@@ -138,6 +135,9 @@ function fetchSortedProducts(type, sortBy) {
             console.error('Error fetching data:', error);
         }
     );
+
+    selectedProduct = null;
+    changeIcons();
 }
 
 //POST functionality
@@ -350,13 +350,41 @@ async function sendUpdatedProduct(productData, id) {
 
 const deleteButton = document.getElementById('delete-button'); //the delete button
 deleteButton.addEventListener('click', function () {
-    if(selectedProduct){
+    if (selectedProduct) {
         //confirm prompt
         const result = confirm("Are you sure you want to delete this product FOREVER?");
         if (result === true) {
-
-        } else {
-
+            let id = selectedProduct.id;
+            fetch(`/api/v1/products/${id}`, {
+                method: 'DELETE'
+            })
+                .then(response => {
+                    if (response.ok) {
+                        updateTable();
+                        selectedProduct = null;
+                    } else {
+                        alert("Error deleting product, invalid id.");
+                    }
+                })
+                .catch(error => {
+                    alert("Error deleting product, please try again later.");
+                });
         }
     }
 });
+
+function changeIcons(){
+    if(selectedProduct === null){
+        selectedProduct = null;
+        showEditFormButton.classList.add('disabled');
+        deleteButton.classList.add('greyed');
+        icon.style.color = 'grey';
+        icon2.style.color = 'grey';
+    }
+    else{
+        showEditFormButton.classList.remove('disabled');
+        deleteButton.classList.remove('greyed');
+        icon2.style.color = 'darkred';
+        icon.style.color = 'yellow';
+    }
+}
