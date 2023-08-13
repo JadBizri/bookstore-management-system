@@ -20,28 +20,28 @@ public class ProductService {
         this.productRepository = productRepository;
     }
 
-    public List<Product> getProducts(){
+    public List<Product> getProducts() {
         return productRepository.findAll();
     }
 
     public void addNewBook(Book b) {
         Optional<Book> bookOptional = productRepository
                 .findBookByIsbn(b.getIsbn());
-        if(bookOptional.isPresent())
+        if (bookOptional.isPresent())
             throw new IllegalStateException("Book exists!");
         productRepository.save(b);
     }
 
     public void addNewCD(CD cd) {
-        Optional<Product> cdOptional = productRepository.findProductByName(cd.getName());
-        if(cdOptional.isPresent())
+        Optional<CD> cdOptional = productRepository.findCdByName(cd.getName());
+        if (cdOptional.isPresent())
             throw new IllegalStateException("CD exists!");
         productRepository.save(cd);
     }
 
     public void addNewDVD(DVD dvd) {
-        Optional<Product> dvdOptional = productRepository.findProductByName(dvd.getName());
-        if(dvdOptional.isPresent())
+        Optional<DVD> dvdOptional = productRepository.findDvdByName(dvd.getName());
+        if (dvdOptional.isPresent())
             throw new IllegalStateException("DVD exists!");
         productRepository.save(dvd);
     }
@@ -50,21 +50,38 @@ public class ProductService {
         Product existingProduct = productRepository.findById(id).orElse(null);
 
         if (existingProduct != null) {
-            // Update the existing product with data from the updatedProduct
+            //update the existing product with data from the updatedProduct
             existingProduct.setName(updatedProduct.getName());
             existingProduct.setPrice(updatedProduct.getPrice());
             existingProduct.setYear(updatedProduct.getYear());
             existingProduct.setCreator(updatedProduct.getCreator());
             existingProduct.setNumCopies(updatedProduct.getNumCopies());
-            if(existingProduct instanceof Book){
-                ((Book) existingProduct).setIsbn(((Book) updatedProduct).getIsbn());
-            }
+            switch (existingProduct) {
+                case Book book -> {
+                    book.setIsbn(((Book) updatedProduct).getIsbn());
+                    Optional<Book> bookOptional = productRepository
+                            .findBookByIsbn(book.getIsbn());
+                    if (bookOptional.isPresent())
+                        throw new IllegalStateException("Book exists!");
+                }
+                case CD ignored -> {
+                    Optional<CD> cdOptional = productRepository.findCdByName(existingProduct.getName());
+                    if (cdOptional.isPresent())
+                        throw new IllegalStateException("CD exists!");
+                }
+                case DVD ignored -> {
+                    Optional<DVD> dvdOptional = productRepository.findDvdByName(existingProduct.getName());
+                    if (dvdOptional.isPresent())
+                        throw new IllegalStateException("DVD exists!");
+                }
+                default -> throw new IllegalStateException("Unexpected Error - No Type Found");
 
-            // Save the updated product in the database
+            }
+            //save the updated product in the database
             return productRepository.save(existingProduct);
         }
 
-        // If product with the given ID does not exist, return null or throw an exception
+        //if product with the given ID does not exist, return null or throw an exception
         throw new IllegalStateException("Product with ID " + id + " was not found");
     }
 
