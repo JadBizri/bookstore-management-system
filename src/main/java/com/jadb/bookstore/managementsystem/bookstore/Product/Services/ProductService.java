@@ -51,37 +51,39 @@ public class ProductService {
         Product existingProduct = productRepository.findById(id).orElse(null);
 
         if (existingProduct != null) {
+            switch (existingProduct) {
+                case Book book -> {
+                    Book existingBook = (Book) existingProduct;
+                    Book updatedBook = (Book) updatedProduct;
+                    Optional<Book> bookOptional = productRepository
+                            .findBookByIsbn(updatedBook.getIsbn());
+                    if (bookOptional.isPresent() && !existingBook.getIsbn().equals(updatedBook.getIsbn()))
+                        throw new IllegalStateException("Book with same ISBN already exists!");
+                    book.setIsbn(((Book) updatedProduct).getIsbn());
+                }
+                case CD cd -> {
+                    Optional<CD> cdOptional = productRepository.findCdByName(updatedProduct.getName());
+                    if (cdOptional.isPresent() && !existingProduct.getName().equals(updatedProduct.getName()))
+                        throw new IllegalStateException("CD already exists!");
+                }
+                case DVD dvd -> {
+                    Optional<DVD> dvdOptional = productRepository.findDvdByName(updatedProduct.getName());
+                    if (dvdOptional.isPresent() && !existingProduct.getName().equals(updatedProduct.getName()))
+                        throw new IllegalStateException("DVD already exists!");
+                }
+                default -> throw new IllegalStateException("Unexpected Error - No Type Found");
+
+            }
             //update the existing product with data from the updatedProduct
             existingProduct.setName(updatedProduct.getName());
             existingProduct.setPrice(updatedProduct.getPrice());
             existingProduct.setYear(updatedProduct.getYear());
             existingProduct.setCreator(updatedProduct.getCreator());
             existingProduct.setNumCopies(updatedProduct.getNumCopies());
-            switch (existingProduct) {
-                case Book book -> {
-                    book.setIsbn(((Book) updatedProduct).getIsbn());
-                    Optional<Book> bookOptional = productRepository
-                            .findBookByIsbn(book.getIsbn());
-                    if (bookOptional.isPresent() && !Objects.equals(book.getIsbn(), bookOptional.get().getIsbn()))
-                        throw new IllegalStateException("Book exists!");
-                }
-                case CD cd -> {
-                    Optional<CD> cdOptional = productRepository.findCdByName(existingProduct.getName());
-                    if (cdOptional.isPresent() && !Objects.equals(cd.getName(), cdOptional.get().getName()))
-                        throw new IllegalStateException("CD exists!");
-                }
-                case DVD dvd -> {
-                    Optional<DVD> dvdOptional = productRepository.findDvdByName(existingProduct.getName());
-                    if (dvdOptional.isPresent() && !Objects.equals(dvd.getName(), dvdOptional.get().getName()))
-                        throw new IllegalStateException("DVD exists!");
-                }
-                default -> throw new IllegalStateException("Unexpected Error - No Type Found");
 
-            }
             //save the updated product in the database
             return productRepository.save(existingProduct);
         }
-
         //if product with the given ID does not exist, return null or throw an exception
         throw new IllegalStateException("Product with ID " + id + " was not found");
     }

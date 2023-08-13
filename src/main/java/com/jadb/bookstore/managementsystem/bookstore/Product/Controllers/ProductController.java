@@ -7,6 +7,7 @@ import com.jadb.bookstore.managementsystem.bookstore.Product.Product;
 import com.jadb.bookstore.managementsystem.bookstore.Product.Repositories.ProductRepository;
 import com.jadb.bookstore.managementsystem.bookstore.Product.Services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -104,14 +105,20 @@ public class ProductController {
 
     // PUT - Update a Product
     @PutMapping("/{id}")
-    public ResponseEntity<Product> updateProduct(@PathVariable long id, @RequestBody Product updatedProduct) {
-        Product updatedProductResult = productService.updateProduct(id, updatedProduct);
+    public ResponseEntity<?> updateProduct(@PathVariable long id, @RequestBody Product updatedProduct) {
+        try {
+            Product updatedProductResult = productService.updateProduct(id, updatedProduct);
 
-        if (updatedProductResult != null) {
-            return ResponseEntity.ok(updatedProductResult);
-        } else {
-            // If product with the given ID does not exist, return a 404 Not Found status.
-            return ResponseEntity.notFound().build();
+            if (updatedProductResult != null) {
+                return ResponseEntity.ok(updatedProductResult);
+            } else {
+                // If product with the given ID does not exist, return a 404 Not Found status.
+                return ResponseEntity.notFound().build();
+            }
+        } catch (IllegalStateException exception) {
+            // Handle the exception and return an appropriate error response.
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("An error occurred: " + exception.getMessage());
         }
     }
 
