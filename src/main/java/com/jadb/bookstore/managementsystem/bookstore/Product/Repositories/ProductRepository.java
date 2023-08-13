@@ -1,6 +1,8 @@
 package com.jadb.bookstore.managementsystem.bookstore.Product.Repositories;
 
 import com.jadb.bookstore.managementsystem.bookstore.Product.Book;
+import com.jadb.bookstore.managementsystem.bookstore.Product.CD;
+import com.jadb.bookstore.managementsystem.bookstore.Product.DVD;
 import com.jadb.bookstore.managementsystem.bookstore.Product.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -16,6 +18,12 @@ public interface ProductRepository
 
     @Query("SELECT p FROM Product p WHERE p.name = ?1")
     Optional<Product> findProductByName(String name);
+
+    @Query("SELECT cd FROM CD cd WHERE cd.name = ?1")
+    Optional<CD> findCdByName(String name);
+
+    @Query("SELECT dvd FROM DVD dvd WHERE dvd.name = ?1")
+    Optional<DVD> findDvdByName(String name);
 
     @Query("SELECT b FROM Book b WHERE b.isbn = ?1")
     Optional<Book> findBookByIsbn(String isbn);
