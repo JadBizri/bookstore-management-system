@@ -15,6 +15,7 @@ import org.springframework.http.MediaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -127,7 +128,7 @@ public class ProductControllerTest {
         String updatedProductJson = objectMapper.writeValueAsString(updatedBook);
 
         //perform PUT request with the JSON data
-        long productId = 1L; // Replace with an existing product ID
+        long productId = 1;
         ResultActions resultActions = mockMvc.perform(put("/api/v1/products/{id}", productId)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(updatedProductJson));
@@ -136,4 +137,15 @@ public class ProductControllerTest {
         resultActions.andExpect(status().isOk());
     }
 
+    //DELETE test
+
+    @Test
+    public void testDeleteProduct() throws Exception {
+        //perform DELETE request
+        long productId = 1;
+        ResultActions resultActions = mockMvc.perform(delete("/api/v1/products/{id}", productId));
+
+        // Assert response
+        resultActions.andExpect(status().isNoContent());
+    }
 }
