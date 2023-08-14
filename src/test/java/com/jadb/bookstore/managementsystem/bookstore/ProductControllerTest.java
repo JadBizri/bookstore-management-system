@@ -3,7 +3,6 @@ package com.jadb.bookstore.managementsystem.bookstore;
 import com.jadb.bookstore.managementsystem.bookstore.Product.Book;
 import com.jadb.bookstore.managementsystem.bookstore.Product.CD;
 import com.jadb.bookstore.managementsystem.bookstore.Product.DVD;
-import com.jadb.bookstore.managementsystem.bookstore.Product.Product;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
