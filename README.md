@@ -37,6 +37,22 @@ Boot and a PostgreSQL database.
 - Backend: Java, Spring Boot
 - Database: PostgreSQL
 
+## Testing
+
+This project includes comprehensive testing to ensure its functionality and stability. The tests are written using
+[JUnit](https://junit.org/junit5/) and [MockMvc](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/web/servlet/MockMvc.html)
+for testing the Spring MVC controllers.
+
+The tests cover various aspects of the application, including:
+
+- Creating new products
+- Retrieving products by different criteria (type, sorting)
+- Updating existing products
+- Deleting products
+
+Each test case ensures that the application behaves as expected under different scenarios. If you encounter any issues
+while running the tests, please refer to the documentation or seek assistance.
+
 ## Credits
 
 - Project developed by [Jad Bizri](https://linkedin.com/in/jadbizri)
