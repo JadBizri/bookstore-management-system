@@ -51,29 +51,23 @@ public class ProductService {
         Product existingProduct = productRepository.findById(id).orElse(null);
 
         if (existingProduct != null) {
-            switch (existingProduct) {
-                case Book book -> {
-                    Book existingBook = (Book) existingProduct;
-                    Book updatedBook = (Book) updatedProduct;
-                    Optional<Book> bookOptional = productRepository
-                            .findBookByIsbn(updatedBook.getIsbn());
-                    if (bookOptional.isPresent() && !existingBook.getIsbn().equals(updatedBook.getIsbn()))
-                        throw new IllegalStateException("Book with same ISBN already exists!");
-                    book.setIsbn(((Book) updatedProduct).getIsbn());
-                }
-                case CD cd -> {
-                    Optional<CD> cdOptional = productRepository.findCdByName(updatedProduct.getName());
-                    if (cdOptional.isPresent() && !existingProduct.getName().equals(updatedProduct.getName()))
-                        throw new IllegalStateException("CD already exists!");
-                }
-                case DVD dvd -> {
-                    Optional<DVD> dvdOptional = productRepository.findDvdByName(updatedProduct.getName());
-                    if (dvdOptional.isPresent() && !existingProduct.getName().equals(updatedProduct.getName()))
-                        throw new IllegalStateException("DVD already exists!");
-                }
-                default -> throw new IllegalStateException("Unexpected Error - No Type Found");
+            if (existingProduct instanceof Book existingBook) {
+                Book updatedBook = (Book) updatedProduct;
+                Optional<Book> bookOptional = productRepository
+                        .findBookByIsbn(updatedBook.getIsbn());
+                if (bookOptional.isPresent() && !existingBook.getIsbn().equals(updatedBook.getIsbn()))
+                    throw new IllegalStateException("Book with same ISBN already exists!");
+                ((Book) existingProduct).setIsbn(((Book) updatedProduct).getIsbn());
+            } else if (existingProduct instanceof CD) {
+                Optional<CD> cdOptional = productRepository.findCdByName(updatedProduct.getName());
+                if (cdOptional.isPresent() && !existingProduct.getName().equals(updatedProduct.getName()))
+                    throw new IllegalStateException("CD already exists!");
+            } else if (existingProduct instanceof DVD) {
+                Optional<DVD> dvdOptional = productRepository.findDvdByName(updatedProduct.getName());
+                if (dvdOptional.isPresent() && !existingProduct.getName().equals(updatedProduct.getName()))
+                    throw new IllegalStateException("DVD already exists!");
+            } else throw new IllegalStateException("Unexpected Error - No Type Found");
 
-            }
             //update the existing product with data from the updatedProduct
             existingProduct.setName(updatedProduct.getName());
             existingProduct.setPrice(updatedProduct.getPrice());
