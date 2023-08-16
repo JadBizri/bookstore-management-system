@@ -95,7 +95,7 @@ public class ProductConfig {
             );
 
             repository.saveAll(
-                    List.of(book, book1, book2, cd, cd1, cd2, dvd, dvd1, dvd2)
+                    List.of(dvd2, book, dvd, cd, book2, cd2, book1, dvd1, cd1)
             );
         };
     }
